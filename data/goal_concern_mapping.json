@@ -1,0 +1,126 @@
+{
+  "_schema_doc": "Top-level: 대칭(symmetric) vs 비대칭(asymmetric) 분기. 대칭=muscle 기반 score 추천. 비대칭=v2 prescription matrix lookup (증상 위치 + 좌/우 → condition).",
+
+  "top_modes": {
+    "symmetric": {
+      "emoji": "⚖️",
+      "label": "좌우 균형 운동",
+      "sub_label": "양쪽 동일 자극 · 일반 근력 운동"
+    },
+    "asymmetric": {
+      "emoji": "🔄",
+      "label": "비대칭 조정 운동",
+      "sub_label": "한쪽 특화 · 통증/불편 부위 맞춤"
+    }
+  },
+
+  "symmetric_goals": {
+    "엉덩이": {
+      "emoji": "🍑",
+      "label": "엉덩이",
+      "target_muscles": ["Gmed_R", "Gmed_L"],
+      "weights": { "Gmed_R": 1.0, "Gmed_L": 1.0 }
+    },
+    "허벅지 안쪽": {
+      "emoji": "🦵",
+      "label": "허벅지 안쪽",
+      "target_muscles": ["Add_R", "Add_L"],
+      "weights": { "Add_R": 1.0, "Add_L": 1.0 }
+    },
+    "고관절 회전": {
+      "emoji": "🌀",
+      "label": "고관절 회전 안정성",
+      "target_muscles": ["ER_R", "ER_L"],
+      "weights": { "ER_R": 1.0, "ER_L": 1.0 }
+    },
+    "전체": {
+      "emoji": "💪",
+      "label": "전체",
+      "target_muscles": ["Gmed_R", "Gmed_L", "Add_R", "Add_L", "ER_R", "ER_L", "Trunk"],
+      "weights": { "Gmed_R": 1.0, "Gmed_L": 1.0, "Add_R": 1.0, "Add_L": 1.0, "ER_R": 0.8, "ER_L": 0.8, "Trunk": 0.5 }
+    }
+  },
+
+  "asymmetric_sides": {
+    "right": { "emoji": "👉", "label": "오른쪽이 불편" },
+    "left": { "emoji": "👈", "label": "왼쪽이 불편" },
+    "both": { "emoji": "↔️", "label": "양쪽 다" }
+  },
+
+  "asymmetric_symptoms": {
+    "hip_pelvis": {
+      "emoji": "🍑",
+      "label": "엉덩이/골반 처짐",
+      "sub_label": "걸을 때 골반이 한쪽으로 떨어지는 느낌",
+      "_clinical": "hip abductor weakness (Trendelenburg)"
+    },
+    "knee_medial": {
+      "emoji": "🦵",
+      "label": "무릎 안쪽 통증/소리",
+      "sub_label": "X자 무릎, 안쪽 OA 느낌",
+      "_clinical": "knee varus / medial OA risk — AD on same side 금기"
+    },
+    "knee_lateral": {
+      "emoji": "🦵",
+      "label": "무릎 바깥쪽 통증",
+      "sub_label": "달리기/계단 시 바깥쪽 결림",
+      "_clinical": "ITBS / lateral pattern"
+    },
+    "knee_anterior": {
+      "emoji": "🦵",
+      "label": "무릎 앞쪽 통증",
+      "sub_label": "계단 내려갈 때 앞쪽 통증",
+      "_clinical": "PFPS"
+    },
+    "low_back": {
+      "emoji": "🌀",
+      "label": "허리 통증/뻐근함",
+      "sub_label": "한쪽 허리 불편",
+      "_clinical": "trunk lateral/rotation asymmetry"
+    },
+    "foot_align": {
+      "emoji": "👣",
+      "label": "발 자꾸 돌아감",
+      "sub_label": "발끝이 안/밖으로 향함",
+      "_clinical": "hip rotator control"
+    },
+    "unknown": {
+      "emoji": "❓",
+      "label": "잘 모르겠음",
+      "sub_label": "그냥 한쪽이 약한 듯",
+      "_clinical": "default to Trendelenburg pattern"
+    }
+  },
+
+  "prescription_matrix": {
+    "_doc": "(symptom × side) → condition. PROTOCOL_v2 §2 + safety §7. 'both' → bilateral condition.",
+    "hip_pelvis":     { "right": "ADNE", "left": "NEAD", "both": "ADAD" },
+    "knee_medial":    { "right": "AENE", "left": "NEAE", "both": "AEAE" },
+    "knee_lateral":   { "right": "ADNE", "left": "NEAD", "both": "ADAD" },
+    "knee_anterior":  { "right": "ADNE", "left": "NEAD", "both": "ADAD" },
+    "low_back":       { "right": "AENE", "left": "NEAE", "both": "AEAE" },
+    "foot_align":     { "right": "AINE", "left": "NEAI", "both": "AIAI" },
+    "unknown":        { "right": "ADNE", "left": "NEAD", "both": "NENE" }
+  },
+
+  "concerns": {
+    "고관절 인공관절 (<12주)": {
+      "label": "고관절 인공관절 (<12주)",
+      "metric_type": "contraindication",
+      "blocks_module": "AD",
+      "side_aware": true
+    },
+    "ACL 재건 (<6개월)": {
+      "label": "ACL 재건 (<6개월)",
+      "metric_type": "contraindication",
+      "blocks_module": "AI",
+      "side_aware": true
+    },
+    "급성 요추 디스크": {
+      "label": "급성 요추 디스크",
+      "metric_type": "contraindication",
+      "blocks_module": "AIAI",
+      "side_aware": false
+    }
+  }
+}

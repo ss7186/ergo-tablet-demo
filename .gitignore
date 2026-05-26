@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Streamlit
+.streamlit/secrets.toml
+
+# 임시/개발 스크립트
+_smoke_test.py
+_crop_illustration.py
+_extract_pptx_image.py
+_apply_user_assets.py
+_pick_imgs.py
+_pptx_dump/
+_*.py
+!_smoke_test_placeholder.txt
+
+# OS
+Thumbs.db
+desktop.ini
+
+# logs
+*.log

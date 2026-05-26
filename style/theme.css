@@ -1,0 +1,349 @@
+/* Tilted-Plane Ergometer 태블릿 앱 - 터치 친화 스타일 */
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --accent: #06b6d4;
+  --good: #16a34a;
+  --warn: #ea580c;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --radius: 18px;
+}
+
+html, body, [class*="st-"] {
+  font-size: 20px;
+  color: var(--text);
+}
+
+.block-container {
+  padding-top: 2.5rem !important;
+  padding-bottom: 2.5rem !important;
+  max-width: 1400px;
+}
+
+#MainMenu, header, footer { visibility: hidden; }
+
+/* === Buttons (touch friendly) === */
+.stButton > button {
+  min-height: 90px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  transition: transform 0.05s, box-shadow 0.15s, border-color 0.15s;
+  white-space: pre-line;
+  line-height: 1.4;
+  padding: 0.8rem 1rem;
+}
+
+.stButton > button:hover {
+  border-color: var(--primary);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18);
+}
+
+.stButton > button:active {
+  transform: scale(0.97);
+}
+
+/* primary action: 시작하기 / 없어요 / 다시 시작 */
+button[kind="primary"],
+.stButton > button[data-testid="baseButton-primary"],
+[data-testid="stButton"] button:has(div:contains("시작")),
+[data-testid="stButton"] button:has(div:contains("없어요")),
+[data-testid="stButton"] button:has(div:contains("다시")) {
+  background: var(--primary) !important;
+  color: white !important;
+  border-color: var(--primary) !important;
+}
+
+/* === Welcome === */
+.welcome-wrap {
+  text-align: center;
+  padding: 2rem 1rem 1.5rem;
+}
+.welcome-device {
+  font-size: 8rem;
+  line-height: 1;
+}
+.welcome-title {
+  font-size: 3rem !important;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+  line-height: 1.3;
+}
+.welcome-sub {
+  font-size: 1.4rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+.disclaimer {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--muted);
+  margin-top: 2rem;
+}
+
+/* === Screen titles === */
+.screen-title {
+  font-size: 2.4rem !important;
+  font-weight: 700;
+  text-align: center;
+  margin: 0.5rem 0 0.5rem;
+}
+.screen-sub {
+  text-align: center;
+  font-size: 1.3rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+/* === Goal cards (Screen 2) === */
+.stButton > button[data-testid*="goal_"] {
+  min-height: 200px;
+  font-size: 1.5rem;
+}
+
+/* === Concern checkboxes === */
+.stCheckbox {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+  transition: border-color 0.15s;
+}
+.stCheckbox:hover { border-color: var(--primary); }
+.stCheckbox label {
+  font-size: 1.2rem !important;
+  font-weight: 500;
+}
+.stCheckbox label p {
+  font-size: 1.2rem !important;
+}
+
+.or-divider {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin: 1.8rem 0 1rem;
+  position: relative;
+}
+
+/* === Result screen cards === */
+.setting-card, .effect-card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.8rem;
+  margin-bottom: 1rem;
+}
+.setting-card h3, .effect-card h3 {
+  font-size: 1.6rem;
+  margin: 0 0 1rem;
+  color: var(--primary);
+}
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.3rem;
+}
+.setting-row:last-child { border-bottom: none; }
+.setting-label { color: var(--muted); }
+.setting-value { font-weight: 700; }
+
+.setting-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  margin: 0 0 1rem;
+}
+
+.lr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-top: 0.6rem;
+}
+.lr-cell {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+}
+.lr-tag {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+.lr-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.eff-info { color: var(--primary); }
+
+.welcome-brand {
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.welcome-text {
+  padding: 1.5rem 0;
+  text-align: left;
+}
+.welcome-text .welcome-title {
+  font-size: 3rem !important;
+  line-height: 1.2;
+  margin: 0 0 1rem;
+}
+.welcome-text .welcome-sub {
+  font-size: 1.25rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.welcome-cta {
+  font-size: 1.2rem;
+  color: var(--accent);
+  margin-top: 1.5rem;
+  font-weight: 600;
+}
+
+.safety-card {
+  background: #fff7ed;
+  border: 2px solid #fdba74;
+  border-radius: var(--radius);
+  padding: 1.2rem 1.5rem;
+  margin-top: 1rem;
+}
+.safety-card h3 {
+  margin: 0 0 0.6rem;
+  color: var(--warn);
+  font-size: 1.3rem;
+}
+.safety-card ul { margin: 0; padding-left: 1.2rem; }
+.safety-card li {
+  font-size: 1.1rem;
+  padding: 0.3rem 0;
+  color: var(--text);
+}
+.safety-foot {
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.media-placeholder {
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.2rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin: 0.8rem 0;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.media-placeholder.video {
+  min-height: 200px;
+}
+.media-placeholder .play-icon {
+  font-size: 2.5rem;
+  color: var(--primary);
+  opacity: 0.7;
+}
+.media-placeholder .media-desc {
+  color: var(--text);
+  font-size: 1.05rem;
+  font-weight: 500;
+  padding: 0 1rem;
+}
+.media-placeholder .media-hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-family: monospace;
+  margin-top: 0.3rem;
+}
+
+.effect-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.effect-list li {
+  padding: 0.7rem 0;
+  font-size: 1.25rem;
+  border-bottom: 1px dashed var(--border);
+}
+.effect-list li:last-child { border-bottom: none; }
+.eff-good { color: var(--good); }
+.eff-warn { color: var(--warn); }
+
+.meta-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.meta-cell {
+  flex: 1;
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: center;
+}
+.meta-icon { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+.meta-label {
+  display: block;
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+.meta-val {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* === Footer === */
+.app-footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* === Responsive (작은 화면 fallback) === */
+@media (max-width: 900px) {
+  html, body, [class*="st-"] { font-size: 17px; }
+  .welcome-title { font-size: 2.2rem !important; }
+  .screen-title { font-size: 1.8rem !important; }
+  .stButton > button { min-height: 70px; font-size: 1.15rem; }
+  .stButton > button[data-testid*="goal_"] { min-height: 140px; }
+}
+
+/* === 스탠바이미/대형 디스플레이 === */
+@media (min-width: 1700px) {
+  html, body, [class*="st-"] { font-size: 22px; }
+  .welcome-title { font-size: 3.6rem !important; }
+  .screen-title { font-size: 2.8rem !important; }
+}

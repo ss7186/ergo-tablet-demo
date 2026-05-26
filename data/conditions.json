@@ -1,0 +1,589 @@
+{
+  "_schema_doc": "4문자 condition code: 첫 2글자=오른쪽 페달, 뒤 2글자=왼쪽 페달 (HANDOFF §1). Module은 발쪽 tilt 명칭이며, 관절 반응은 보상 방향. NE=수평, AD=발끝 안쪽(toes-in)→hip 외전(abductors 동원), AE=발끝 바깥(toes-out)+외회전→hip 내전+IR(adductors+ER stabilizers+trunk anti-rotators), AI=발끝 안쪽+외번→hip rotation control. 수치는 condition_mechanism_signature.csv (OpenSim n=15) 기준.",
+  "NENE": {
+    "name_kr": "양쪽 수평 (기준)",
+    "right_pedal": "NE",
+    "left_pedal": "NE",
+    "right_setting_label": "수평",
+    "left_setting_label": "수평",
+    "symmetry": "symm",
+    "stimulated_side": "none",
+    "mechanism_target": [],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "양쪽 균형 페달링"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": null
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": 0,
+        "pelvis_rot_peak": 0,
+        "pelvis_rot_ROM": 0,
+        "hip_add_R": 0,
+        "hip_add_L": 0,
+        "hip_rot_R_ROM": 0,
+        "hip_rot_L_ROM": 0,
+        "lumbar_bend_peak": 0,
+        "lumbar_rot_peak": 0
+      },
+      "muscles": {
+        "Gmed_R": 0,
+        "Gmed_L": 0,
+        "Add_R": 0,
+        "Add_L": 0,
+        "ER_R": 0,
+        "ER_L": 0,
+        "Trunk": 0
+      }
+    },
+    "intensity": "쉬움",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [],
+    "media": {
+      "illustration": "illustrations/nene.png",
+      "video": "videos/nene.mp4",
+      "video_description": "양쪽 페달을 수평으로 두고 일반 자전거처럼 페달링합니다."
+    }
+  },
+  "ADNE": {
+    "name_kr": "오른쪽 발끝 안쪽",
+    "right_pedal": "AD",
+    "left_pedal": "NE",
+    "right_setting_label": "발끝 안쪽 (toes-in)",
+    "left_setting_label": "수평",
+    "symmetry": "asym",
+    "stimulated_side": "right",
+    "mechanism_target": [
+      "오른쪽 엉덩이 옆 근육 (외전근)"
+    ],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "오른쪽 엉덩이 옆 근육",
+        "오른쪽 무릎 안쪽 안정근"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": "왼쪽 다리는 자연스럽게 페달링하며 균형 학습"
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": 0.74,
+        "pelvis_rot_peak": -0.15,
+        "pelvis_rot_ROM": 1.08,
+        "hip_add_R": -7.11,
+        "hip_add_L": -3.76,
+        "hip_rot_R_ROM": 2.55,
+        "hip_rot_L_ROM": 1.11,
+        "lumbar_bend_peak": -0.78,
+        "lumbar_rot_peak": 0.03,
+        "knee_R_add_peak": -10.04,
+        "pedal_SI_Fz_shift": 63
+      },
+      "muscles": {
+        "Gmed_R": 70,
+        "Gmed_L": 10,
+        "Add_R": -20,
+        "Add_L": 0,
+        "ER_R": 5,
+        "ER_L": 0,
+        "Trunk": 5
+      }
+    },
+    "intensity": "보통",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [
+      "우측 고관절 인공관절(<12주)",
+      "우측 무릎 안쪽 통증(varus OA)"
+    ],
+    "media": {
+      "illustration": "illustrations/adne.png",
+      "video": "videos/adad.mp4",
+      "video_description": "오른쪽 발끝 안쪽. 영상은 양쪽 적용 예시."
+    }
+  },
+  "NEAD": {
+    "name_kr": "왼쪽 발끝 안쪽",
+    "right_pedal": "NE",
+    "left_pedal": "AD",
+    "right_setting_label": "수평",
+    "left_setting_label": "발끝 안쪽 (toes-in)",
+    "symmetry": "asym",
+    "stimulated_side": "left",
+    "mechanism_target": [
+      "왼쪽 엉덩이 옆 근육 (외전근)"
+    ],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "왼쪽 엉덩이 옆 근육",
+        "왼쪽 무릎 안쪽 안정근"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": "오른쪽 다리는 자연스럽게 페달링하며 균형 학습"
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": 0.12,
+        "pelvis_rot_peak": 1.59,
+        "pelvis_rot_ROM": 1.92,
+        "hip_add_R": -3.32,
+        "hip_add_L": -6.03,
+        "hip_rot_R_ROM": 1.05,
+        "hip_rot_L_ROM": 1.29,
+        "lumbar_bend_peak": 1.84,
+        "lumbar_rot_peak": 2.01,
+        "knee_R_add_peak": 1.26,
+        "pedal_SI_Fz_shift": -58
+      },
+      "muscles": {
+        "Gmed_R": 10,
+        "Gmed_L": 65,
+        "Add_R": 0,
+        "Add_L": -20,
+        "ER_R": 0,
+        "ER_L": 5,
+        "Trunk": 5
+      }
+    },
+    "intensity": "보통",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [
+      "좌측 고관절 인공관절(<12주)",
+      "좌측 무릎 안쪽 통증(varus OA)"
+    ],
+    "media": {
+      "illustration": "illustrations/nead.png",
+      "video": "videos/adad.mp4",
+      "video_description": "왼쪽 발끝 안쪽. 영상은 양쪽 적용 예시."
+    }
+  },
+  "AENE": {
+    "name_kr": "오른쪽 발끝 바깥",
+    "right_pedal": "AE",
+    "left_pedal": "NE",
+    "right_setting_label": "발끝 바깥 (toes-out)",
+    "left_setting_label": "수평",
+    "symmetry": "asym",
+    "stimulated_side": "right",
+    "mechanism_target": [
+      "오른쪽 허벅지 안쪽 (내전근)",
+      "오른쪽 골반 회전 안정근",
+      "허리 안정근"
+    ],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "오른쪽 허벅지 안쪽 근육",
+        "오른쪽 고관절 회전 안정근",
+        "허리 회전 안정근"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": "허리·골반 비틀림 안정성 함께 훈련"
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": -2.36,
+        "pelvis_rot_peak": 2.11,
+        "pelvis_rot_ROM": 1.26,
+        "hip_add_R": 6.56,
+        "hip_add_L": 0.84,
+        "hip_rot_R_ROM": 13.66,
+        "hip_rot_L_ROM": 0.11,
+        "lumbar_bend_peak": 1.59,
+        "lumbar_rot_peak": 4.23,
+        "knee_R_add_peak": 2.25,
+        "pedal_SI_Fz_shift": 0
+      },
+      "muscles": {
+        "Gmed_R": -10,
+        "Gmed_L": 0,
+        "Add_R": 65,
+        "Add_L": 5,
+        "ER_R": 60,
+        "ER_L": 0,
+        "Trunk": 40
+      }
+    },
+    "intensity": "보통",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [
+      "우측 대전자 점액낭염",
+      "우측 고관절 후방 인공관절"
+    ],
+    "media": {
+      "illustration": "illustrations/aene.png",
+      "video": "videos/aeae.mp4",
+      "video_description": "오른쪽 발끝 바깥. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일)."
+    }
+  },
+  "NEAE": {
+    "name_kr": "왼쪽 발끝 바깥",
+    "right_pedal": "NE",
+    "left_pedal": "AE",
+    "right_setting_label": "수평",
+    "left_setting_label": "발끝 바깥 (toes-out)",
+    "symmetry": "asym",
+    "stimulated_side": "left",
+    "mechanism_target": [
+      "왼쪽 허벅지 안쪽 (내전근)",
+      "왼쪽 골반 회전 안정근",
+      "허리 옆구리 안정근"
+    ],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "왼쪽 허벅지 안쪽 근육",
+        "왼쪽 고관절 회전 안정근",
+        "허리 옆구리 안정근"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": "허리 좌우 굽힘 안정성 함께 훈련"
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": 1.3,
+        "pelvis_rot_peak": -1.47,
+        "pelvis_rot_ROM": -0.42,
+        "hip_add_R": 0.01,
+        "hip_add_L": 5.91,
+        "hip_rot_R_ROM": 0.6,
+        "hip_rot_L_ROM": 14.42,
+        "lumbar_bend_peak": -3.25,
+        "lumbar_rot_peak": -0.85,
+        "knee_R_add_peak": -1.93,
+        "pedal_SI_Fz_shift": 0
+      },
+      "muscles": {
+        "Gmed_R": 0,
+        "Gmed_L": -10,
+        "Add_R": 5,
+        "Add_L": 65,
+        "ER_R": 0,
+        "ER_L": 60,
+        "Trunk": 40
+      }
+    },
+    "intensity": "보통",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [
+      "좌측 대전자 점액낭염",
+      "좌측 고관절 후방 인공관절"
+    ],
+    "media": {
+      "illustration": "illustrations/neae.png",
+      "video": "videos/aeae.mp4",
+      "video_description": "왼쪽 발끝 바깥. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일)."
+    }
+  },
+  "AINE": {
+    "name_kr": "오른쪽 발끝 안쪽+외번",
+    "right_pedal": "AI",
+    "left_pedal": "NE",
+    "right_setting_label": "발끝 안쪽 + 외번",
+    "left_setting_label": "수평",
+    "symmetry": "asym",
+    "stimulated_side": "right",
+    "mechanism_target": [
+      "오른쪽 고관절 회전 control 근육"
+    ],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "오른쪽 엉덩이 깊은 회전 근육"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": "오른쪽 다리 회전 안정성 학습"
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": -3.46,
+        "pelvis_rot_peak": -1.95,
+        "pelvis_rot_ROM": -0.09,
+        "hip_add_R": -2.91,
+        "hip_add_L": -5.16,
+        "hip_rot_R_ROM": 14.12,
+        "hip_rot_L_ROM": 0.02,
+        "lumbar_bend_peak": 1.54,
+        "lumbar_rot_peak": 3.46,
+        "knee_R_add_peak": 2.43,
+        "pedal_SI_Fz_shift": 0
+      },
+      "muscles": {
+        "Gmed_R": 5,
+        "Gmed_L": 0,
+        "Add_R": 10,
+        "Add_L": 0,
+        "ER_R": 70,
+        "ER_L": 0,
+        "Trunk": 20
+      }
+    },
+    "intensity": "보통",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [
+      "우측 ACL 재건(<6개월)"
+    ],
+    "media": {
+      "illustration": "illustrations/aine.png",
+      "video": "videos/aiai.mp4",
+      "video_description": "오른쪽 발끝 안쪽 + 외번. 영상은 양쪽 적용 예시."
+    }
+  },
+  "NEAI": {
+    "name_kr": "왼쪽 발끝 안쪽+외번",
+    "right_pedal": "NE",
+    "left_pedal": "AI",
+    "right_setting_label": "수평",
+    "left_setting_label": "발끝 안쪽 + 외번",
+    "symmetry": "asym",
+    "stimulated_side": "left",
+    "mechanism_target": [
+      "왼쪽 고관절 회전 control 근육",
+      "골반 좌우 처짐 안정근"
+    ],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "왼쪽 엉덩이 깊은 회전 근육",
+        "골반 좌우 안정 근육"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": "골반이 한쪽으로 떨어지는 것 가장 강하게 보정"
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": 4.31,
+        "pelvis_rot_peak": 1.83,
+        "pelvis_rot_ROM": 0.21,
+        "hip_add_R": -4.57,
+        "hip_add_L": -4.15,
+        "hip_rot_R_ROM": 0.25,
+        "hip_rot_L_ROM": 14.57,
+        "lumbar_bend_peak": -1.38,
+        "lumbar_rot_peak": -2.04,
+        "knee_R_add_peak": -2.03,
+        "pedal_SI_Fz_shift": 0
+      },
+      "muscles": {
+        "Gmed_R": 0,
+        "Gmed_L": 5,
+        "Add_R": 0,
+        "Add_L": 10,
+        "ER_R": 0,
+        "ER_L": 70,
+        "Trunk": 20
+      }
+    },
+    "intensity": "보통",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [
+      "좌측 ACL 재건(<6개월)"
+    ],
+    "media": {
+      "illustration": "illustrations/neai.png",
+      "video": "videos/aiai.mp4",
+      "video_description": "왼쪽 발끝 안쪽 + 외번. 영상은 양쪽 적용 예시."
+    }
+  },
+  "ADAD": {
+    "name_kr": "양쪽 발끝 안쪽",
+    "right_pedal": "AD",
+    "left_pedal": "AD",
+    "right_setting_label": "발끝 안쪽",
+    "left_setting_label": "발끝 안쪽",
+    "symmetry": "symm",
+    "stimulated_side": "both",
+    "mechanism_target": [
+      "양쪽 엉덩이 옆 근육 (외전근)"
+    ],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "양쪽 엉덩이 옆 근육",
+        "양쪽 무릎 안정근"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": null
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": 0.42,
+        "pelvis_rot_peak": 0.86,
+        "pelvis_rot_ROM": 1.98,
+        "hip_add_R": -7.61,
+        "hip_add_L": -8.4,
+        "hip_rot_R_ROM": 1.54,
+        "hip_rot_L_ROM": 0.7,
+        "lumbar_bend_peak": 0.27,
+        "lumbar_rot_peak": 0.69,
+        "knee_R_add_peak": -9.46,
+        "pedal_SI_Fz_shift": 0
+      },
+      "muscles": {
+        "Gmed_R": 75,
+        "Gmed_L": 75,
+        "Add_R": -20,
+        "Add_L": -20,
+        "ER_R": 5,
+        "ER_L": 5,
+        "Trunk": 5
+      }
+    },
+    "intensity": "강함",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [
+      "고관절 인공관절(<12주)",
+      "무릎 안쪽 통증(varus OA)"
+    ],
+    "media": {
+      "illustration": "illustrations/adad.png",
+      "video": "videos/adad.mp4",
+      "video_description": "양쪽 페달을 발끝 안쪽 방향으로 고정. 양쪽 엉덩이 옆 근육을 균등하게 강화합니다."
+    }
+  },
+  "AEAE": {
+    "name_kr": "양쪽 발끝 바깥",
+    "right_pedal": "AE",
+    "left_pedal": "AE",
+    "right_setting_label": "발끝 바깥",
+    "left_setting_label": "발끝 바깥",
+    "symmetry": "symm",
+    "stimulated_side": "both",
+    "mechanism_target": [
+      "양쪽 허벅지 안쪽",
+      "고관절 내회전 안정근"
+    ],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "양쪽 허벅지 안쪽 근육",
+        "고관절 회전 안정근"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": null
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": -2.19,
+        "pelvis_rot_peak": -0.1,
+        "pelvis_rot_ROM": 0.5,
+        "hip_add_R": 6.65,
+        "hip_add_L": 5.88,
+        "hip_rot_R_ROM": 10.0,
+        "hip_rot_L_ROM": 9.72,
+        "lumbar_bend_peak": -2.63,
+        "lumbar_rot_peak": -1.05,
+        "knee_R_add_peak": 1.44,
+        "pedal_SI_Fz_shift": 0
+      },
+      "muscles": {
+        "Gmed_R": -10,
+        "Gmed_L": -10,
+        "Add_R": 65,
+        "Add_L": 65,
+        "ER_R": 60,
+        "ER_L": 60,
+        "Trunk": 20
+      }
+    },
+    "intensity": "강함",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [
+      "대전자 점액낭염",
+      "고관절 후방 인공관절"
+    ],
+    "media": {
+      "illustration": "illustrations/aeae.png",
+      "video": "videos/aeae.mp4",
+      "video_description": "양쪽 페달을 발끝 바깥 방향으로 고정. 양쪽 허벅지 안쪽과 골반 회전 안정성을 균등하게 자극합니다."
+    }
+  },
+  "AIAI": {
+    "name_kr": "양쪽 발끝 안쪽+외번",
+    "right_pedal": "AI",
+    "left_pedal": "AI",
+    "right_setting_label": "발끝 안쪽 + 외번",
+    "left_setting_label": "발끝 안쪽 + 외번",
+    "symmetry": "symm",
+    "stimulated_side": "both",
+    "mechanism_target": [
+      "양쪽 고관절 회전 control"
+    ],
+    "user_friendly_effects": {
+      "muscles_strengthened": [
+        "양쪽 엉덩이 깊은 회전 근육"
+      ],
+      "load_decreased": [],
+      "load_increased": [],
+      "contralateral_note": null
+    },
+    "biomech_data": {
+      "outcomes": {
+        "pelvis_list_peak": 0.02,
+        "pelvis_rot_peak": 0.13,
+        "pelvis_rot_ROM": 0.27,
+        "hip_add_R": -6.67,
+        "hip_add_L": -7.51,
+        "hip_rot_R_ROM": 10.21,
+        "hip_rot_L_ROM": 9.81,
+        "lumbar_bend_peak": 0.03,
+        "lumbar_rot_peak": -0.11,
+        "knee_R_add_peak": 1.94,
+        "pedal_SI_Fz_shift": 0
+      },
+      "muscles": {
+        "Gmed_R": 5,
+        "Gmed_L": 5,
+        "Add_R": 10,
+        "Add_L": 10,
+        "ER_R": 70,
+        "ER_L": 70,
+        "Trunk": 10
+      }
+    },
+    "intensity": "강함",
+    "duration_min": [
+      5,
+      10
+    ],
+    "contraindications": [
+      "ACL 재건(<6개월)",
+      "급성 요추 디스크"
+    ],
+    "media": {
+      "illustration": "illustrations/aiai.png",
+      "video": "videos/aiai.mp4",
+      "video_description": "양쪽 페달을 발끝 안쪽 + 외번 방향으로 고정. 양쪽 고관절 회전 control을 균등하게 자극합니다."
+    }
+  }
+}
