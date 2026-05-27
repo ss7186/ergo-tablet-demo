@@ -1,0 +1,59 @@
+name: Sync to Hugging Face Space
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # GitHub Actions 탭에서 수동 실행 가능
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install huggingface_hub
+        run: pip install --quiet "huggingface_hub>=0.20"
+
+      - name: Upload to HF Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REF: ${{ github.ref }}
+        run: |
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+
+          token = os.environ.get("HF_TOKEN")
+          if not token:
+              raise SystemExit("HF_TOKEN secret not configured in GitHub repo settings.")
+
+          api = HfApi(token=token)
+          sha = os.environ.get("GITHUB_SHA", "")[:7]
+          ref = os.environ.get("GITHUB_REF", "main")
+
+          result = api.upload_folder(
+              folder_path=".",
+              repo_id="OrthoEngine/ergo-tablet-demo",
+              repo_type="space",
+              commit_message=f"Sync from GitHub {ref} @ {sha}",
+              ignore_patterns=[
+                  ".git/*", ".github/*",
+                  "_*.py", "_pptx_dump/*",
+                  "*.pyc", "__pycache__/*",
+                  ".venv/*", "venv/*",
+                  ".vscode/*", ".idea/*",
+                  "*.log",
+              ],
+          )
+          print(f"Uploaded. Commit: {result}")
+          PY
