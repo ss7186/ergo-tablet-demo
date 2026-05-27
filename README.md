@@ -1,3 +1,16 @@
+---
+title: 비대칭 조정 에르고미터
+emoji: 🚲
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+sdk_version: 1.57.0
+app_file: app.py
+pinned: false
+license: mit
+short_description: PROTOCOL_v2 기반 ergometer 비대칭 처방 데모
+---
+
 # 비대칭 조정 에르고미터 — 태블릿 데모 앱
 
 병원 헬스장에 비치되는 태블릿/스탠바이미용 데모. 직원이 30초 안에 본인 증상에 맞는 ergometer 세팅을 추천받는다.
