@@ -26,12 +26,12 @@ def render(mapping: dict):
     st.markdown("<br/>", unsafe_allow_html=True)
     back_col, _, next_col = st.columns([1, 2, 1])
     with back_col:
-        if st.button("◀ 이전", key="concern_back", use_container_width=True):
+        if st.button("◀ 이전", key="concern_back", type="tertiary"):
             top = st.session_state.get("top_mode", "asymmetric")
             st.session_state.screen = "sym_goal" if top == "symmetric" else "asym_symptom"
             st.rerun()
     with next_col:
-        if st.button("다음 ▶", key="concern_next", use_container_width=True):
+        if st.button("다음 ▶", key="concern_next", type="tertiary"):
             st.session_state.concerns = selected
             st.session_state.screen = "result"
             st.rerun()

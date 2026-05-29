@@ -20,6 +20,6 @@ def render(mapping: dict):
     st.markdown("<br/>", unsafe_allow_html=True)
     _, back, _ = st.columns([2, 1, 2])
     with back:
-        if st.button("◀ 처음으로", key="mode_back", use_container_width=True):
+        if st.button("◀ 처음으로", key="mode_back", type="tertiary"):
             st.session_state.screen = "welcome"
             st.rerun()

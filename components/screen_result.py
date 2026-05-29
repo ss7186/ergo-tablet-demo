@@ -130,17 +130,23 @@ def render(conditions: dict, mapping: dict):
         _render_safety(warnings)
 
     st.markdown("<br/>", unsafe_allow_html=True)
-    f1, f2, _, again_col = st.columns([1, 1, 1, 2])
+    f1, f2, f3, f4 = st.columns(4)
     with f1:
-        if st.button("👍 도움됐어요", key="fb_up", use_container_width=True):
+        if st.button("👍 도움됐어요", key="fb_up", type="tertiary"):
             st.session_state.feedback = "up"
             st.toast("감사합니다!", icon="🙏")
     with f2:
-        if st.button("👎 별로예요", key="fb_down", use_container_width=True):
+        if st.button("👎 별로예요", key="fb_down", type="tertiary"):
             st.session_state.feedback = "down"
             st.toast("의견 감사합니다", icon="🙏")
-    with again_col:
-        if st.button("다시 시작 ↻", key="restart", use_container_width=True):
+    with f3:
+        if st.button("다시 시작 ↻", key="restart", type="tertiary"):
+            for k in ("top_mode", "sym_goal", "asym_side", "asym_symptom", "concerns", "feedback"):
+                st.session_state.pop(k, None)
+            st.session_state.screen = "mode"
+            st.rerun()
+    with f4:
+        if st.button("🏠 홈", key="home", type="tertiary"):
             for k in ("top_mode", "sym_goal", "asym_side", "asym_symptom", "concerns", "feedback"):
                 st.session_state.pop(k, None)
             st.session_state.screen = "welcome"

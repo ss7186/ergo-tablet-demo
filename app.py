@@ -55,8 +55,7 @@ def main():
     st.markdown(
         """
         <div class="app-footer">
-          비대칭 조정 에르고미터 · Korea University Guro Hospital · Biomedical Engineering<br/>
-          PROTOCOL v2 (n=15 OpenSim · n=7 페달 · n=3 VICON 검증)
+          고려대학교 구로병원 정형외과 교수 / 고려대학교 의공학교실
         </div>
         """,
         unsafe_allow_html=True,

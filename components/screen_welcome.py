@@ -67,8 +67,11 @@ def render():
         st.markdown(
             """
             <div class="welcome-text">
-              <h1 class="welcome-title">비대칭 조정<br/>에르고미터</h1>
-              <p class="welcome-sub">페달링의 회전면과 각도를 조절하여<br/>다양한 하지 근육을 선택적으로 타겟하는<br/>맞춤형 사이클 운동 기기</p>
+              <div class="title-wrap">
+                <h1 class="welcome-title">Triplanar ERGO</h1>
+                <p class="welcome-subtitle">다축 조정 자전거 에르고미터</p>
+              </div>
+              <p class="welcome-sub">페달링의 회전면과 각도를 조절하여 다양한 하지 근육을 선택적으로 타겟하는 맞춤형 사이클 운동 기기</p>
               <p class="welcome-cta">30초만 투자하시면<br/>오늘의 맞춤 세팅을 추천해드려요</p>
             </div>
             """,
@@ -86,6 +89,6 @@ def render():
             _howto_dialog()
 
     st.markdown(
-        '<p class="disclaimer">본 device의 일반적 효과를 안내합니다. 의학적 조언이 아닙니다. 통증이 지속되시면 운동 전 의무실을 방문해주세요.</p>',
+        '<p class="disclaimer">본 기기는 운동 가이드를 안내할 뿐 의학적 조언을 대신하지 않습니다.<br/>통증이 있으면 운동을 멈추고 전문의와 상담해주세요.</p>',
         unsafe_allow_html=True,
     )

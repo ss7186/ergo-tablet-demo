@@ -51,6 +51,27 @@ html, body, [class*="st-"] {
   transform: scale(0.97);
 }
 
+/* tertiary: 텍스트 링크 스타일 (테두리·배경 없음) */
+.stButton > button[kind="tertiary"],
+.stButton > button[data-testid*="tertiary"] {
+  min-height: auto !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--muted) !important;
+  font-size: 1.1rem !important;
+  font-weight: 500 !important;
+  padding: 0.4rem 0.6rem !important;
+  width: auto !important;
+}
+.stButton > button[kind="tertiary"]:hover,
+.stButton > button[data-testid*="tertiary"]:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--primary) !important;
+  text-decoration: underline;
+}
+
 /* primary action: 시작하기 / 없어요 / 다시 시작 */
 button[kind="primary"],
 .stButton > button[data-testid="baseButton-primary"],
@@ -136,35 +157,41 @@ button[kind="primary"],
   position: relative;
 }
 
-/* === Result screen cards === */
+/* === Result screen cards (심플·모던) === */
 .setting-card, .effect-card {
   background: var(--card);
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem 1.8rem;
-  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.8rem 2rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
 }
 .setting-card h3, .effect-card h3 {
-  font-size: 1.6rem;
-  margin: 0 0 1rem;
-  color: var(--primary);
+  font-size: 1.35rem;
+  margin: 0 0 1.2rem;
+  color: var(--text);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: -0.01em;
 }
 .setting-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.6rem 0;
+  padding: 0.7rem 0;
   border-bottom: 1px solid var(--border);
-  font-size: 1.3rem;
+  font-size: 1.25rem;
 }
 .setting-row:last-child { border-bottom: none; }
-.setting-label { color: var(--muted); }
-.setting-value { font-weight: 700; }
+.setting-label { color: var(--muted); font-weight: 500; }
+.setting-value { font-weight: 700; color: var(--text); }
 
 .setting-sub {
   color: var(--muted);
-  font-size: 1rem;
-  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  margin: 0 0 1.2rem;
+  text-align: center;
+  letter-spacing: 0.02em;
 }
 
 .lr-grid {
@@ -175,23 +202,24 @@ button[kind="primary"],
 }
 .lr-cell {
   background: var(--bg);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.1rem 0.8rem;
   text-align: center;
 }
 .lr-tag {
   color: var(--muted);
-  font-size: 1.1rem;
-  margin-bottom: 0.4rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 .lr-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--text);
 }
 
-.eff-info { color: var(--primary); }
+.eff-info { color: var(--muted); }
 
 .welcome-brand {
   font-size: 0.85rem;
@@ -202,17 +230,43 @@ button[kind="primary"],
 }
 .welcome-text {
   padding: 1.5rem 0;
-  text-align: left;
+  text-align: center;
 }
-.welcome-text .welcome-title {
+.welcome-text .title-wrap {
+  display: inline-grid;
+  grid-template-columns: max-content;
+  justify-items: end;
+  margin: 0 0 1.2rem;
+}
+.welcome-text .title-wrap .welcome-title {
   font-size: 3rem !important;
-  line-height: 1.2;
-  margin: 0 0 1rem;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0;
+  white-space: nowrap;
+  width: auto !important;
+}
+.welcome-text .title-wrap .welcome-subtitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #334155;
+  margin: -0.4rem 0 0;
+  padding: 0;
+  letter-spacing: 0;
+  white-space: nowrap;
+  width: auto !important;
 }
 .welcome-text .welcome-sub {
   font-size: 1.25rem;
   color: var(--muted);
   line-height: 1.5;
+  max-width: 32ch;
+  margin-left: auto;
+  margin-right: auto;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-wrap: balance;
 }
 .welcome-cta {
   font-size: 1.2rem;
@@ -298,15 +352,15 @@ button[kind="primary"],
 
 .meta-row {
   display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
 }
 .meta-cell {
   flex: 1;
   background: var(--card);
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem 0.8rem;
   text-align: center;
 }
 .meta-icon { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
