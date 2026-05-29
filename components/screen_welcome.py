@@ -1,53 +1,82 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 from utils.media import render_video, render_illustration, has_media
 
 
-@st.dialog("에르고미터 사용법", width="large")
+@st.dialog(" ", width="large")
 def _howto_dialog():
-    if has_media("illustrations/device_main.png"):
-        render_illustration("illustrations/device_main.png")
+    # dialog 열릴 때 스크롤 최상단으로 강제 (video 자동 focus + scrollIntoView 차단)
+    components.html(
+        """
+        <script>
+        const doc = window.parent.document;
+        const SELECTORS = [
+          'div[role="dialog"]',
+          '[data-testid="stDialog"]',
+          'dialog',
+          '[aria-modal="true"]',
+          '[data-baseweb="modal"]',
+        ];
+        const forceTop = () => {
+          // 1. video 자동 스크롤 차단
+          doc.querySelectorAll('video').forEach(v => {
+            v.tabIndex = -1;
+            v.scrollIntoView = () => {};
+            v.autofocus = false;
+          });
+          // 2. dialog 및 모든 scrollable 자식 top으로
+          SELECTORS.forEach(sel => {
+            doc.querySelectorAll(sel).forEach(dlg => {
+              dlg.scrollTop = 0;
+              dlg.querySelectorAll('*').forEach(el => {
+                if (el.scrollHeight > el.clientHeight) el.scrollTop = 0;
+              });
+            });
+          });
+        };
+        forceTop();
+        [30, 80, 150, 300, 500, 800, 1200].forEach(d => setTimeout(forceTop, d));
+        </script>
+        """,
+        height=0,
+    )
 
+    # 0. 메인 title (dialog header의 기본 title 외에 본문 시작점)
+    st.markdown('<h1 class="howto-title">에르고미터 사용법</h1>', unsafe_allow_html=True)
+
+    # 1. 에르고미터 부위 안내 이미지
+    if has_media("illustrations/howto_device_parts.png"):
+        render_illustration("illustrations/howto_device_parts.png")
+
+    # 2. 사용 순서
+    st.markdown('<h3 class="howto-step-title">사용 순서</h3>', unsafe_allow_html=True)
     st.markdown(
         """
-        ### 사용 순서
+        **1. 좌석 조정** — 레버를 앞으로 당겨 안장의 위치를 조절합니다.
+        > 페달을 가장 멀리 뻗어 무릎이 살짝 굽혀지는 위치에서 레버를 뒤로 당겨 고정합니다.
 
-        **1. 좌석 조정** — 편안한 위치에 앉아 페달이 발에 자연스럽게 닿도록 좌석 높이 조정
+        **2. 페달 세팅** — 화면이 추천한 좌·우 페달 각도를 확인하고 기기의 레버를 조절합니다.
 
-        **2. 페달 세팅** — 화면이 추천한 좌/우 페달 각도를 확인하고 device의 dial을 맞춥니다
-
-        **3. 페달링** — 균일한 속도로 5–10분. 통증이 있으면 즉시 중단
+        **3. 페달링** — 균일한 속도로 5 ~ 10분 탑니다.
+        > 통증 발생 시 즉시 중단합니다.
         """
     )
 
-    if has_media("illustrations/pedal_dial.png"):
-        c1, c2 = st.columns([1, 2])
-        with c1:
-            render_illustration("illustrations/pedal_dial.png")
-        with c2:
-            st.markdown(
-                "**페달 각도 dial**  \n"
-                "–30° / 0° / +30° 눈금에 맞춰 페달의 기울임을 조절합니다."
-            )
+    st.markdown("---")
+
+    # 3. 영상 안내
+    st.markdown('<h2 class="howto-section">영상 안내</h2>', unsafe_allow_html=True)
+    render_video("videos/howto_main2.mp4")
 
     st.markdown("---")
-    st.markdown("### 영상 안내")
-    render_video("videos/howto_main.mp4", description="에르고미터 사용 전반 안내")
 
-    st.markdown("---")
-    st.markdown("### 4가지 페달 모드")
-    cols = st.columns(4)
-    modes = [
-        ("NE", "수평 (Neutral)", "기본 자세 · 대칭 운동"),
-        ("AD", "발끝 안쪽 (toes-in)", "엉덩이 옆 근육 자극"),
-        ("AE", "발끝 바깥 (toes-out)", "허벅지 안쪽 + 회전 안정성"),
-        ("AI", "발끝 안쪽 + 외번", "고관절 회전 control"),
-    ]
-    for col, (code, name, sub) in zip(cols, modes):
-        with col:
-            render_illustration(f"illustrations/mode_{code.lower()}.png")
-            st.markdown(f"**{code}** — {name}")
-            st.caption(sub)
+    # 4. 4가지 페달링 모드 — mode1~mode4.png 세로 나열
+    st.markdown('<h2 class="howto-section">4가지 페달링 모드</h2>', unsafe_allow_html=True)
+    for i in range(1, 5):
+        path = f"illustrations/mode{i}.png"
+        if has_media(path):
+            render_illustration(path)
 
 
 def render():

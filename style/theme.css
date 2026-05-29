@@ -157,6 +157,43 @@ button[kind="primary"],
   position: relative;
 }
 
+/* === 사용법 dialog 헤딩 === */
+.howto-section,
+h2.howto-section {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin: 1.2rem 0 0.8rem !important;
+  color: var(--text) !important;
+  line-height: 1.3 !important;
+}
+.howto-step-title,
+h3.howto-step-title {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin: 0.8rem 0 0.6rem !important;
+  color: var(--text) !important;
+  line-height: 1.3 !important;
+}
+/* dialog title (에르고미터 사용법) — 더 큰 강조 (모든 가능 selector + class) */
+.howto-title,
+[role="dialog"] h1,
+[role="dialog"] header h1,
+[role="dialog"] header h2,
+[role="dialog"] header div,
+[data-testid="stDialog"] h1,
+[data-testid="stDialog"] header h1,
+[data-testid="stDialog"] header h2,
+[data-testid="stDialog"] header div,
+[data-testid="stDialogHeader"] *,
+[data-testid="stModal"] h1 {
+  font-size: 2.2rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
+  color: var(--text);
+  margin: 0 0 1rem;
+  text-align: center;
+}
+
 /* === Result screen cards (심플·모던) === */
 .setting-card, .effect-card {
   background: var(--card);
