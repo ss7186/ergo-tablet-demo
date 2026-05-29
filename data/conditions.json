@@ -1,7 +1,7 @@
 {
-  "_schema_doc": "4문자 condition code: 첫 2글자=오른쪽 페달, 뒤 2글자=왼쪽 페달 (HANDOFF §1). Module은 발쪽 tilt 명칭이며, 관절 반응은 보상 방향. NE=수평, AD=발끝 안쪽(toes-in)→hip 외전(abductors 동원), AE=발끝 바깥(toes-out)+외회전→hip 내전+IR(adductors+ER stabilizers+trunk anti-rotators), AI=발끝 안쪽+외번→hip rotation control. 수치는 condition_mechanism_signature.csv (OpenSim n=15) 기준.",
+  "_schema_doc": "4문자 condition code: 첫 2글자=오른쪽 페달, 뒤 2글자=왼쪽 페달 (HANDOFF §1). Module 정의: NE=기본 모드(Neutral), AD=내로우·롤인(adduction + inversion), AE=와이드·토인(abduction + eversion + IR/toe-in), AI=와이드·토아웃(abduction + inversion + ER/toe-out). 수치는 condition_mechanism_signature.csv (OpenSim n=15) 기준.",
   "NENE": {
-    "name_kr": "양쪽 수평 (기준)",
+    "name_kr": "기본 모드",
     "right_pedal": "NE",
     "left_pedal": "NE",
     "right_setting_label": "수평",
@@ -52,10 +52,10 @@
     }
   },
   "ADNE": {
-    "name_kr": "오른쪽 발끝 안쪽",
+    "name_kr": "오른쪽 내로우 · 롤인",
     "right_pedal": "AD",
     "left_pedal": "NE",
-    "right_setting_label": "발끝 안쪽 (toes-in)",
+    "right_setting_label": "내로우 · 롤인",
     "left_setting_label": "수평",
     "symmetry": "asym",
     "stimulated_side": "right",
@@ -107,15 +107,15 @@
     "media": {
       "illustration": "illustrations/adne.png",
       "video": "videos/adad.mp4",
-      "video_description": "오른쪽 발끝 안쪽. 영상은 양쪽 적용 예시."
+      "video_description": "오른쪽 내로우 · 롤인. 영상은 양쪽 적용 예시."
     }
   },
   "NEAD": {
-    "name_kr": "왼쪽 발끝 안쪽",
+    "name_kr": "왼쪽 내로우 · 롤인",
     "right_pedal": "NE",
     "left_pedal": "AD",
     "right_setting_label": "수평",
-    "left_setting_label": "발끝 안쪽 (toes-in)",
+    "left_setting_label": "내로우 · 롤인",
     "symmetry": "asym",
     "stimulated_side": "left",
     "mechanism_target": [
@@ -166,14 +166,14 @@
     "media": {
       "illustration": "illustrations/nead.png",
       "video": "videos/adad.mp4",
-      "video_description": "왼쪽 발끝 안쪽. 영상은 양쪽 적용 예시."
+      "video_description": "왼쪽 내로우 · 롤인. 영상은 양쪽 적용 예시."
     }
   },
   "AENE": {
-    "name_kr": "오른쪽 발끝 바깥",
+    "name_kr": "오른쪽 와이드 · 토인",
     "right_pedal": "AE",
     "left_pedal": "NE",
-    "right_setting_label": "발끝 바깥 (toes-out)",
+    "right_setting_label": "와이드 · 토인",
     "left_setting_label": "수평",
     "symmetry": "asym",
     "stimulated_side": "right",
@@ -228,15 +228,15 @@
     "media": {
       "illustration": "illustrations/aene.png",
       "video": "videos/aeae.mp4",
-      "video_description": "오른쪽 발끝 바깥. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일)."
+      "video_description": "오른쪽 와이드 · 토인. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일)."
     }
   },
   "NEAE": {
-    "name_kr": "왼쪽 발끝 바깥",
+    "name_kr": "왼쪽 와이드 · 토인",
     "right_pedal": "NE",
     "left_pedal": "AE",
     "right_setting_label": "수평",
-    "left_setting_label": "발끝 바깥 (toes-out)",
+    "left_setting_label": "와이드 · 토인",
     "symmetry": "asym",
     "stimulated_side": "left",
     "mechanism_target": [
@@ -290,14 +290,14 @@
     "media": {
       "illustration": "illustrations/neae.png",
       "video": "videos/aeae.mp4",
-      "video_description": "왼쪽 발끝 바깥. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일)."
+      "video_description": "왼쪽 와이드 · 토인. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일)."
     }
   },
   "AINE": {
-    "name_kr": "오른쪽 발끝 안쪽+외번",
+    "name_kr": "오른쪽 와이드 · 토아웃",
     "right_pedal": "AI",
     "left_pedal": "NE",
-    "right_setting_label": "발끝 안쪽 + 외번",
+    "right_setting_label": "와이드 · 토아웃",
     "left_setting_label": "수평",
     "symmetry": "asym",
     "stimulated_side": "right",
@@ -347,15 +347,15 @@
     "media": {
       "illustration": "illustrations/aine.png",
       "video": "videos/aiai.mp4",
-      "video_description": "오른쪽 발끝 안쪽 + 외번. 영상은 양쪽 적용 예시."
+      "video_description": "오른쪽 와이드 · 토아웃. 영상은 양쪽 적용 예시."
     }
   },
   "NEAI": {
-    "name_kr": "왼쪽 발끝 안쪽+외번",
+    "name_kr": "왼쪽 와이드 · 토아웃",
     "right_pedal": "NE",
     "left_pedal": "AI",
     "right_setting_label": "수평",
-    "left_setting_label": "발끝 안쪽 + 외번",
+    "left_setting_label": "와이드 · 토아웃",
     "symmetry": "asym",
     "stimulated_side": "left",
     "mechanism_target": [
@@ -406,15 +406,15 @@
     "media": {
       "illustration": "illustrations/neai.png",
       "video": "videos/aiai.mp4",
-      "video_description": "왼쪽 발끝 안쪽 + 외번. 영상은 양쪽 적용 예시."
+      "video_description": "왼쪽 와이드 · 토아웃. 영상은 양쪽 적용 예시."
     }
   },
   "ADAD": {
-    "name_kr": "양쪽 발끝 안쪽",
+    "name_kr": "내로우 · 롤인",
     "right_pedal": "AD",
     "left_pedal": "AD",
-    "right_setting_label": "발끝 안쪽",
-    "left_setting_label": "발끝 안쪽",
+    "right_setting_label": "내로우 · 롤인",
+    "left_setting_label": "내로우 · 롤인",
     "symmetry": "symm",
     "stimulated_side": "both",
     "mechanism_target": [
@@ -465,15 +465,15 @@
     "media": {
       "illustration": "illustrations/adad.png",
       "video": "videos/adad.mp4",
-      "video_description": "양쪽 페달을 발끝 안쪽 방향으로 고정. 양쪽 엉덩이 옆 근육을 균등하게 강화합니다."
+      "video_description": "양쪽 페달을 내로우 · 롤인 방향으로 고정. 양쪽 엉덩이 옆 근육을 균등하게 강화합니다."
     }
   },
   "AEAE": {
-    "name_kr": "양쪽 발끝 바깥",
+    "name_kr": "와이드 · 토인",
     "right_pedal": "AE",
     "left_pedal": "AE",
-    "right_setting_label": "발끝 바깥",
-    "left_setting_label": "발끝 바깥",
+    "right_setting_label": "와이드 · 토인",
+    "left_setting_label": "와이드 · 토인",
     "symmetry": "symm",
     "stimulated_side": "both",
     "mechanism_target": [
@@ -525,15 +525,15 @@
     "media": {
       "illustration": "illustrations/aeae.png",
       "video": "videos/aeae.mp4",
-      "video_description": "양쪽 페달을 발끝 바깥 방향으로 고정. 양쪽 허벅지 안쪽과 골반 회전 안정성을 균등하게 자극합니다."
+      "video_description": "양쪽 페달을 와이드 · 토인 방향으로 고정. 양쪽 허벅지 안쪽과 골반 회전 안정성을 균등하게 자극합니다."
     }
   },
   "AIAI": {
-    "name_kr": "양쪽 발끝 안쪽+외번",
+    "name_kr": "와이드 · 토아웃",
     "right_pedal": "AI",
     "left_pedal": "AI",
-    "right_setting_label": "발끝 안쪽 + 외번",
-    "left_setting_label": "발끝 안쪽 + 외번",
+    "right_setting_label": "와이드 · 토아웃",
+    "left_setting_label": "와이드 · 토아웃",
     "symmetry": "symm",
     "stimulated_side": "both",
     "mechanism_target": [
@@ -583,7 +583,7 @@
     "media": {
       "illustration": "illustrations/aiai.png",
       "video": "videos/aiai.mp4",
-      "video_description": "양쪽 페달을 발끝 안쪽 + 외번 방향으로 고정. 양쪽 고관절 회전 control을 균등하게 자극합니다."
+      "video_description": "양쪽 페달을 와이드 · 토아웃 방향으로 고정. 양쪽 고관절 회전 control을 균등하게 자극합니다."
     }
   }
 }
