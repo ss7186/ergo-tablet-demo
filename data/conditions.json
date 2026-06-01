@@ -1,5 +1,5 @@
 {
-  "_schema_doc": "4문자 condition code: 첫 2글자=오른쪽 페달, 뒤 2글자=왼쪽 페달 (HANDOFF §1). Module 정의: NE=기본 모드(Neutral), AD=내로우·롤인(adduction + inversion), AE=와이드·토인(abduction + eversion + IR/toe-in), AI=와이드·토아웃(abduction + inversion + ER/toe-out). 수치는 condition_mechanism_signature.csv (OpenSim n=15) 기준.",
+  "_schema_doc": "4문자 condition code: 첫 2글자=오른쪽 페달, 뒤 2글자=왼쪽 페달. Module 정의 (PROMOTION 명명 alias): NE=NEU=기본 모드, AD=ADI=내로우·롤인, AE=ABE=와이드·토인, AI=ABI=와이드·토아웃. Bilateral 별칭: ADAD=ADI, AEAE=ABE, AIAI=ABI. 수치는 condition_mechanism_signature.csv (OpenSim n=15) 기준.",
   "NENE": {
     "name_kr": "기본 모드",
     "right_pedal": "NE",
@@ -11,7 +11,7 @@
     "mechanism_target": [],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "양쪽 균형 페달링"
+        "하지 전체 균형감 있게 활성화"
       ],
       "load_decreased": [],
       "load_increased": [],
@@ -51,9 +51,11 @@
       "video_description": "양쪽 페달을 수평으로 두고 일반 자전거처럼 페달링합니다.",
       "muscle_illustration": "illustrations/muscle_nene.png"
     },
-    "joint_load_summary": "관절 부담 균등 — 일반 자전거와 동일",
-    "muscle_activation_summary": "허벅지 앞쪽·종아리가 표준 페달링처럼 일함",
-    "pain_risks": []
+    "joint_load_summary": "관절 부담 균등 — 워밍업 / 마무리 / 일반 유산소에 적합",
+    "muscle_activation_summary": "표준 사이클링처럼 하지 전체 근육이 균형 있게 일함",
+    "pain_risks": [],
+    "alias": "NEU",
+    "alias_kr": "기본 모드"
   },
   "ADNE": {
     "name_kr": "오른쪽 내로우 · 롤인",
@@ -64,16 +66,17 @@
     "symmetry": "asym",
     "stimulated_side": "right",
     "mechanism_target": [
-      "오른쪽 엉덩이 옆 근육 (외전근)"
+      "오른쪽 허벅지 안쪽 (내전근)",
+      "오른쪽 종아리"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "오른쪽 엉덩이 옆 근육",
-        "오른쪽 무릎 안쪽 안정근"
+        "오른쪽 허벅지 안쪽",
+        "오른쪽 종아리"
       ],
       "load_decreased": [],
       "load_increased": [],
-      "contralateral_note": "왼쪽 다리는 자연스럽게 페달링하며 균형 학습"
+      "contralateral_note": "왼쪽 다리는 자연스러운 페달링 — 균형 학습"
     },
     "biomech_data": {
       "outcomes": {
@@ -114,11 +117,10 @@
       "video_description": "오른쪽 내로우 · 롤인. 영상은 양쪽 적용 예시.",
       "muscle_illustration": "illustrations/muscle_adne.png"
     },
-    "joint_load_summary": "오른쪽 무릎 안쪽 부담 ↑ · 왼쪽은 평상시 부담",
-    "muscle_activation_summary": "오른쪽 엉덩이 옆 근육이 강하게 일함, 왼쪽은 균형 학습",
+    "joint_load_summary": "오른쪽 내전근·종아리 강화 — 좌우 차이 자극",
+    "muscle_activation_summary": "오른쪽 허벅지 안쪽·종아리가 강하게 일함, 왼쪽은 자연스러운 페달링",
     "pain_risks": [
-      "우측 무릎 안쪽 통증·varus OA",
-      "우측 고관절 인공관절 < 12주"
+      "우측 급성 내전근/종아리 손상"
     ]
   },
   "NEAD": {
@@ -130,16 +132,17 @@
     "symmetry": "asym",
     "stimulated_side": "left",
     "mechanism_target": [
-      "왼쪽 엉덩이 옆 근육 (외전근)"
+      "왼쪽 허벅지 안쪽 (내전근)",
+      "왼쪽 종아리"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "왼쪽 엉덩이 옆 근육",
-        "왼쪽 무릎 안쪽 안정근"
+        "왼쪽 허벅지 안쪽",
+        "왼쪽 종아리"
       ],
       "load_decreased": [],
       "load_increased": [],
-      "contralateral_note": "오른쪽 다리는 자연스럽게 페달링하며 균형 학습"
+      "contralateral_note": "오른쪽 다리는 자연스러운 페달링 — 균형 학습"
     },
     "biomech_data": {
       "outcomes": {
@@ -180,11 +183,10 @@
       "video_description": "왼쪽 내로우 · 롤인. 영상은 양쪽 적용 예시.",
       "muscle_illustration": "illustrations/muscle_nead.png"
     },
-    "joint_load_summary": "왼쪽 무릎 안쪽 부담 ↑ · 오른쪽은 평상시 부담",
-    "muscle_activation_summary": "왼쪽 엉덩이 옆 근육이 강하게 일함, 오른쪽은 균형 학습",
+    "joint_load_summary": "왼쪽 내전근·종아리 강화 — 좌우 차이 자극",
+    "muscle_activation_summary": "왼쪽 허벅지 안쪽·종아리가 강하게 일함, 오른쪽은 자연스러운 페달링",
     "pain_risks": [
-      "좌측 무릎 안쪽 통증·varus OA",
-      "좌측 고관절 인공관절 < 12주"
+      "좌측 급성 내전근/종아리 손상"
     ]
   },
   "AENE": {
@@ -196,19 +198,15 @@
     "symmetry": "asym",
     "stimulated_side": "right",
     "mechanism_target": [
-      "오른쪽 허벅지 안쪽 (내전근)",
-      "오른쪽 골반 회전 안정근",
-      "허리 안정근"
+      "오른쪽 엉덩이 옆·뒤·위 (Gmed/Gmax)"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "오른쪽 허벅지 안쪽 근육",
-        "오른쪽 고관절 회전 안정근",
-        "허리 회전 안정근"
+        "오른쪽 엉덩이 옆·뒤·위"
       ],
       "load_decreased": [],
       "load_increased": [],
-      "contralateral_note": "허리·골반 비틀림 안정성 함께 훈련"
+      "contralateral_note": "왼쪽 다리는 자연스러운 페달링 — 균형 학습"
     },
     "biomech_data": {
       "outcomes": {
@@ -249,11 +247,11 @@
       "video_description": "오른쪽 와이드 · 토인. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일).",
       "muscle_illustration": "illustrations/muscle_aene.png"
     },
-    "joint_load_summary": "오른쪽 허벅지 안쪽·골반 회전 부담 ↑",
-    "muscle_activation_summary": "오른쪽 허벅지 안쪽 + 고관절 회전 안정근 + 허리 회전근이 강하게 일함",
+    "joint_load_summary": "오른쪽 엉덩이 외전근 강화 — 우측 무릎 안쪽 부담 적음",
+    "muscle_activation_summary": "오른쪽 엉덩이 옆·뒤·위 근육이 강하게 일함, 왼쪽은 자연스럽게",
     "pain_risks": [
-      "우측 대전자 점액낭염",
-      "우측 고관절 후방 인공관절"
+      "우측 고관절 인공관절 < 12주",
+      "우측 대전자 점액낭염"
     ]
   },
   "NEAE": {
@@ -265,19 +263,15 @@
     "symmetry": "asym",
     "stimulated_side": "left",
     "mechanism_target": [
-      "왼쪽 허벅지 안쪽 (내전근)",
-      "왼쪽 골반 회전 안정근",
-      "허리 옆구리 안정근"
+      "왼쪽 엉덩이 옆·뒤·위 (Gmed/Gmax)"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "왼쪽 허벅지 안쪽 근육",
-        "왼쪽 고관절 회전 안정근",
-        "허리 옆구리 안정근"
+        "왼쪽 엉덩이 옆·뒤·위"
       ],
       "load_decreased": [],
       "load_increased": [],
-      "contralateral_note": "허리 좌우 굽힘 안정성 함께 훈련"
+      "contralateral_note": "오른쪽 다리는 자연스러운 페달링 — 균형 학습"
     },
     "biomech_data": {
       "outcomes": {
@@ -318,11 +312,11 @@
       "video_description": "왼쪽 와이드 · 토인. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일).",
       "muscle_illustration": "illustrations/muscle_neae.png"
     },
-    "joint_load_summary": "왼쪽 허벅지 안쪽·골반 회전 부담 ↑",
-    "muscle_activation_summary": "왼쪽 허벅지 안쪽 + 고관절 회전 안정근 + 허리 옆구리 안정근이 강하게 일함",
+    "joint_load_summary": "왼쪽 엉덩이 외전근 강화 — 좌측 무릎 안쪽 부담 적음",
+    "muscle_activation_summary": "왼쪽 엉덩이 옆·뒤·위 근육이 강하게 일함, 오른쪽은 자연스럽게",
     "pain_risks": [
-      "좌측 대전자 점액낭염",
-      "좌측 고관절 후방 인공관절"
+      "좌측 고관절 인공관절 < 12주",
+      "좌측 대전자 점액낭염"
     ]
   },
   "AINE": {
@@ -334,15 +328,17 @@
     "symmetry": "asym",
     "stimulated_side": "right",
     "mechanism_target": [
-      "오른쪽 고관절 회전 control 근육"
+      "오른쪽 허벅지 뒤 (햄스트링)",
+      "오른쪽 종아리 바깥"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "오른쪽 엉덩이 깊은 회전 근육"
+        "오른쪽 허벅지 뒤",
+        "오른쪽 종아리 바깥"
       ],
       "load_decreased": [],
       "load_increased": [],
-      "contralateral_note": "오른쪽 다리 회전 안정성 학습"
+      "contralateral_note": "왼쪽 다리는 자연스러운 페달링 — 균형 학습"
     },
     "biomech_data": {
       "outcomes": {
@@ -382,10 +378,11 @@
       "video_description": "오른쪽 와이드 · 토아웃. 영상은 양쪽 적용 예시.",
       "muscle_illustration": "illustrations/muscle_aine.png"
     },
-    "joint_load_summary": "오른쪽 발목·고관절 회전 부담 약간 · 전반적 부담 낮음",
-    "muscle_activation_summary": "오른쪽 엉덩이 깊은 회전 근육이 가볍게 자극",
+    "joint_load_summary": "오른쪽 햄스트링 자극 — 좌우 차이 운동",
+    "muscle_activation_summary": "오른쪽 허벅지 뒤·종아리 바깥이 강하게 일함",
     "pain_risks": [
-      "우측 ACL 재건 < 6개월"
+      "우측 ACL 재건 < 6개월",
+      "우측 햄스트링 손상"
     ]
   },
   "NEAI": {
@@ -397,17 +394,17 @@
     "symmetry": "asym",
     "stimulated_side": "left",
     "mechanism_target": [
-      "왼쪽 고관절 회전 control 근육",
-      "골반 좌우 처짐 안정근"
+      "왼쪽 허벅지 뒤 (햄스트링)",
+      "왼쪽 종아리 바깥"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "왼쪽 엉덩이 깊은 회전 근육",
-        "골반 좌우 안정 근육"
+        "왼쪽 허벅지 뒤",
+        "왼쪽 종아리 바깥"
       ],
       "load_decreased": [],
       "load_increased": [],
-      "contralateral_note": "골반이 한쪽으로 떨어지는 것 가장 강하게 보정"
+      "contralateral_note": "오른쪽 다리는 자연스러운 페달링 — 균형 학습"
     },
     "biomech_data": {
       "outcomes": {
@@ -447,10 +444,11 @@
       "video_description": "왼쪽 와이드 · 토아웃. 영상은 양쪽 적용 예시.",
       "muscle_illustration": "illustrations/muscle_neai.png"
     },
-    "joint_load_summary": "왼쪽 발목·고관절 회전 부담 약간 · 골반 좌우 처짐 가장 강하게 보정",
-    "muscle_activation_summary": "왼쪽 엉덩이 깊은 회전 근육 + 골반 좌우 안정 근육 자극",
+    "joint_load_summary": "왼쪽 햄스트링 자극 — 좌우 차이 운동",
+    "muscle_activation_summary": "왼쪽 허벅지 뒤·종아리 바깥이 강하게 일함",
     "pain_risks": [
-      "좌측 ACL 재건 < 6개월"
+      "좌측 ACL 재건 < 6개월",
+      "좌측 햄스트링 손상"
     ]
   },
   "ADAD": {
@@ -462,17 +460,18 @@
     "symmetry": "symm",
     "stimulated_side": "both",
     "mechanism_target": [
-      "양쪽 엉덩이 옆 근육 (외전근)"
+      "양쪽 허벅지 안쪽 (내전근)",
+      "양쪽 종아리"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "양쪽 엉덩이 옆 근육",
-        "양쪽 무릎 안정근"
+        "양쪽 허벅지 안쪽",
+        "양쪽 종아리"
       ],
       "load_decreased": [],
       "load_increased": [],
       "contralateral_note": null,
-      "coaching_cue": "엉덩이 옆 앞쪽 + 허벅지 안쪽이 강하게 일합니다. 햄스트링/종아리는 평상시 그대로."
+      "coaching_cue": "발끝을 모은 자세로 양쪽 허벅지 안쪽과 종아리가 강하게 일합니다."
     },
     "biomech_data": {
       "outcomes": {
@@ -555,12 +554,14 @@
       "video_description": "양쪽 페달을 내로우 · 롤인 방향으로 고정. 양쪽 엉덩이 옆 근육을 균등하게 강화합니다.",
       "muscle_illustration": "illustrations/muscle_adad.png"
     },
-    "joint_load_summary": "양쪽 무릎 안쪽 부담 ↑ (knee adduction moment 증가) · 고관절 부담 증가",
-    "muscle_activation_summary": "양쪽 엉덩이 옆 앞부분(Gmed anterior)이 3–4배 강하게 일함 · 허벅지 안쪽도 동원",
+    "joint_load_summary": "내전근·종아리 강화 — 무릎 바깥쪽 안정성 자극",
+    "muscle_activation_summary": "양쪽 허벅지 안쪽 + 종아리 근육이 강하게 일함",
     "pain_risks": [
-      "무릎 안쪽 통증 · 관절염(varus OA)",
-      "고관절 인공관절 수술 후 12주 미만"
-    ]
+      "급성 내전근 손상 (사타구니 통증)",
+      "급성 종아리 결림"
+    ],
+    "alias": "ADI",
+    "alias_kr": "내로우 · 롤인"
   },
   "AEAE": {
     "name_kr": "와이드 · 토인",
@@ -571,18 +572,18 @@
     "symmetry": "symm",
     "stimulated_side": "both",
     "mechanism_target": [
-      "양쪽 허벅지 안쪽",
-      "고관절 내회전 안정근"
+      "양쪽 엉덩이 옆·뒤·위 근육 (Gmed/Gmax)"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "양쪽 허벅지 안쪽 근육",
-        "고관절 회전 안정근"
+        "양쪽 엉덩이 옆·뒤·위",
+        "정강이 앞",
+        "종아리 바깥"
       ],
       "load_decreased": [],
       "load_increased": [],
       "contralateral_note": null,
-      "coaching_cue": "내릴 때 엉덩이 옆 뒤·위쪽 근육이 강하게 들어갑니다. 올릴 때도 계속 일해요."
+      "coaching_cue": "내릴 때 양쪽 엉덩이 옆·뒤·위 근육이 강하게 들어갑니다. 페달을 누르는 동안 골반이 흔들리지 않게 유지하세요."
     },
     "biomech_data": {
       "outcomes": {
@@ -660,13 +661,14 @@
       "video_description": "양쪽 페달을 와이드 · 토인 방향으로 고정. 양쪽 허벅지 안쪽과 골반 회전 안정성을 균등하게 자극합니다.",
       "muscle_illustration": "illustrations/muscle_aeae.png"
     },
-    "joint_load_summary": "허벅지 안쪽·골반 회전 부담 ↑ · 대전자 압박 가능",
-    "muscle_activation_summary": "내릴 때 양쪽 엉덩이 옆 뒤·위(Gmax-superior) 2배 자극 · 허벅지 안쪽 + 허리 회전 안정근도 동원",
+    "joint_load_summary": "엉덩이 외전근에 큰 부하 — 무릎 안쪽 부담은 적음 (무릎 안쪽 통증 있는 분에게 적합)",
+    "muscle_activation_summary": "양쪽 엉덩이 옆·뒤·위 근육이 강하게 일함 + 정강이 앞·종아리 바깥도 자극",
     "pain_risks": [
-      "대전자 점액낭염 (엉덩이 바깥쪽 통증)",
-      "고관절 후방 인공관절",
-      "급성 요추 통증·디스크 (회전 자극)"
-    ]
+      "고관절 인공관절 수술 후 12주 미만",
+      "대전자 점액낭염 — 엉덩이 바깥쪽 통증"
+    ],
+    "alias": "ABE",
+    "alias_kr": "와이드 · 토인"
   },
   "AIAI": {
     "name_kr": "와이드 · 토아웃",
@@ -677,16 +679,18 @@
     "symmetry": "symm",
     "stimulated_side": "both",
     "mechanism_target": [
-      "양쪽 고관절 회전 control"
+      "양쪽 허벅지 뒤 (햄스트링)",
+      "양쪽 종아리 바깥"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "양쪽 엉덩이 깊은 회전 근육"
+        "양쪽 허벅지 뒤",
+        "양쪽 종아리 바깥"
       ],
       "load_decreased": [],
       "load_increased": [],
       "contralateral_note": null,
-      "coaching_cue": "엉덩이·허리 굽힘근이 푹 쉽니다 (특히 올릴 때)."
+      "coaching_cue": "올릴 때 양쪽 허벅지 뒤 근육이 페달을 끌어당깁니다. 무릎이 바깥으로 빠지지 않도록."
     },
     "biomech_data": {
       "outcomes": {
@@ -769,11 +773,13 @@
       "video_description": "양쪽 페달을 와이드 · 토아웃 방향으로 고정. 양쪽 고관절 회전 control을 균등하게 자극합니다.",
       "muscle_illustration": "illustrations/muscle_aiai.png"
     },
-    "joint_load_summary": "관절 전체 부담 최저 (hip/ankle JRF 가장 낮음) · 회복기 적합",
-    "muscle_activation_summary": "엉덩이·허리 굽힘근(iliacus·TFL)이 푹 쉼 · 발목·고관절 회전 control 근육만 가볍게 자극",
+    "joint_load_summary": "햄스트링·종아리 강화 — 무릎 안쪽 부담은 적음",
+    "muscle_activation_summary": "양쪽 허벅지 뒤·종아리 바깥이 강하게 일함",
     "pain_risks": [
       "ACL 재건 < 6개월 (전방 전단력 주의)",
-      "급성 요추 디스크 — 시작은 천천히"
-    ]
+      "급성 햄스트링 손상"
+    ],
+    "alias": "ABI",
+    "alias_kr": "와이드 · 토아웃"
   }
 }
