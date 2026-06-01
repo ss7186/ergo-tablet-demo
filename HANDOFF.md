@@ -1,4 +1,4 @@
-# 비대칭 조정 에르고미터 — 인계 문서
+# 다축 에르고미터 — 인계 문서
 
 새로 앱을 수정/관리하는 분을 위한 가이드. README와 함께 읽기.
 
@@ -44,7 +44,6 @@ PowerShell `cd`가 경로의 대괄호 `[]`로 막히면 `Set-Location -LiteralP
 - `components/screen_goal.py` — 대칭 분기 라벨
 - `components/screen_asym.py` — "어느 쪽이 더 불편?" 등
 - `components/screen_symptom.py` — 증상 카테고리 라벨
-- `components/screen_concern.py` — 안전 점검 (contraindication 선택)
 - `components/screen_result.py` — 결과 카드 라벨
 
 ### 추천 매트릭스 (어떤 증상에 어떤 condition?)

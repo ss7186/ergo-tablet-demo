@@ -16,18 +16,21 @@ def render(mapping: dict):
 
     symptoms = mapping["asymmetric_symptoms"]
     keys = list(symptoms.keys())
-    # 한 줄에 4개씩 (총 7개 → 4+3 layout)
     rows = [keys[i:i+4] for i in range(0, len(keys), 4)]
     for row in rows:
         cols = st.columns(len(row))
         for col, key in zip(cols, row):
             spec = symptoms[key]
             with col:
-                label = f"{spec['emoji']}\n\n{spec['label']}\n\n{spec['sub_label']}"
+                label = f"{spec['emoji']}  {spec['label']}"
                 if st.button(label, key=f"sym_{key}", use_container_width=True):
                     st.session_state.asym_symptom = key
-                    st.session_state.screen = "concern"
+                    st.session_state.screen = "result"
                     st.rerun()
+                st.markdown(
+                    f'<p class="card-sub">{spec["sub_label"]}</p>',
+                    unsafe_allow_html=True,
+                )
 
     st.markdown("<br/>", unsafe_allow_html=True)
     _, back, _ = st.columns([2, 1, 2])

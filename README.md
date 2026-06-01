@@ -1,5 +1,5 @@
 ---
-title: 비대칭 조정 에르고미터
+title: 다축 에르고미터
 emoji: 🚲
 colorFrom: blue
 colorTo: indigo
@@ -11,7 +11,7 @@ license: mit
 short_description: PROTOCOL_v2 기반 ergometer 비대칭 처방 데모
 ---
 
-# 비대칭 조정 에르고미터 — 태블릿 데모 앱
+# 다축 에르고미터 — 태블릿 데모 앱
 
 병원 헬스장에 비치되는 태블릿/스탠바이미용 데모. 직원이 30초 안에 본인 증상에 맞는 ergometer 세팅을 추천받는다.
 
@@ -42,8 +42,8 @@ welcome
  └ "시작하기" → mode (대칭/비대칭 분기)
  └ "📺 사용법 보기" → modal dialog
 
-대칭 분기:    mode → sym_goal (엉덩이/허벅지 안쪽/고관절 회전/전체) → concern → result
-비대칭 분기:  mode → asym_side (왼쪽/오른쪽/양쪽) → asym_symptom (7 카테고리) → concern → result
+대칭 분기:    mode → sym_goal (엉덩이/허벅지 안쪽/고관절 회전/전체/관절 휴식) → result
+비대칭 분기:  mode → asym_side (왼쪽/오른쪽/양쪽) → asym_symptom (7 카테고리) → result
 ```
 
 비대칭 분기는 PROTOCOL_v2 prescription matrix (`data/goal_concern_mapping.json::prescription_matrix`)로 (symptom × side) → condition 즉시 lookup.
@@ -69,7 +69,6 @@ ergo_tablet_app/
 │   ├── screen_goal.py        # 대칭 분기
 │   ├── screen_asym.py        # 비대칭 — 좌/우
 │   ├── screen_symptom.py     # 비대칭 — 증상 카테고리
-│   ├── screen_concern.py     # 안전 점검 (contraindications)
 │   └── screen_result.py
 ├── utils/
 │   ├── data_loader.py
@@ -94,7 +93,7 @@ GitHub에 새 repo 생성 (public 권장 — Streamlit Cloud 무료 limit). repo
 cd "c:\Users\kumc\OneDrive\[ERGO_Dynamics Journal]\ergo_tablet_app"
 git init
 git add .
-git commit -m "Initial commit: 비대칭 조정 에르고미터 데모 v1"
+git commit -m "Initial commit: 다축 에르고미터 데모 v1"
 git branch -M main
 git remote add origin https://github.com/<your-username>/ergo-tablet-demo.git
 git push -u origin main

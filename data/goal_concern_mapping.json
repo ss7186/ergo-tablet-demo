@@ -38,6 +38,15 @@
       "label": "전체",
       "target_muscles": ["Gmed_R", "Gmed_L", "Add_R", "Add_L", "ER_R", "ER_L", "Trunk"],
       "weights": { "Gmed_R": 1.0, "Gmed_L": 1.0, "Add_R": 1.0, "Add_L": 1.0, "ER_R": 0.8, "ER_L": 0.8, "Trunk": 0.5 }
+    },
+    "관절 휴식": {
+      "emoji": "🧘",
+      "label": "관절 부담 줄이기",
+      "sub_label": "가벼운 자극 · 관절 무리 없음",
+      "target_muscles": [],
+      "weights": {},
+      "_forced_recommendation": "AIAI",
+      "_clinical": "deload / mobility — iliacus pull_concentric -70%, pull_eccentric -96%; TFL pull_concentric -61%; hip/ankle JRF 최저. 좌식 LBP / ITBS subacute / 회복기 후기 적합. ADR-002 + ADR-003 (2026-06-01 accepted)."
     }
   },
 

@@ -30,7 +30,7 @@ OneDrive 폴더 안에서 그냥 작업하고 싶으면 그대로도 됨 — 단
 작업 폴더(`C:\projects\ergo-tablet-demo` 또는 `[ERGO_Dynamics Journal]\ergo_tablet_app`)에서 `claude` 실행 후 아래를 첫 메시지로:
 
 ```
-이 앱은 "비대칭 조정 에르고미터" 태블릿 데모입니다. GitHub와 HF Space에 이미 배포되어 있고, 일부 수정해서 다시 배포하려고 합니다.
+이 앱은 "다축 에르고미터" 태블릿 데모입니다. GitHub와 HF Space에 이미 배포되어 있고, 일부 수정해서 다시 배포하려고 합니다.
 
 먼저 다음 문서를 읽어서 컨텍스트 적재해주세요 (순서대로):
 1. CLAUDE.md  ← 작업 지침 / 자주 수정 영역 매핑

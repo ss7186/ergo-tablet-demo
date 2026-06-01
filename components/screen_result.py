@@ -1,6 +1,6 @@
 import streamlit as st
 
-from components.recommendation import recommend, check_contraindications
+from components.recommendation import recommend
 from utils.media import render_illustration, render_video
 
 
@@ -58,6 +58,15 @@ def _render_effects(cond: dict):
         unsafe_allow_html=True,
     )
 
+    # Phase-resolved coaching cue (ADR-003) — push/pull concentric/eccentric pattern을
+    # 일상어로 한 줄. 데이터 출처는 conditions.json::biomech_data.phase_resolved.
+    cue = eff.get("coaching_cue")
+    if cue:
+        st.markdown(
+            f'<div class="coaching-card"><span class="coaching-icon">💡</span> <b>운동 팁</b>: {cue}</div>',
+            unsafe_allow_html=True,
+        )
+
 
 def _render_meta(cond: dict, source_label: str | None):
     icon, label = _INTENSITY_BADGE.get(cond["intensity"], ("🟡", cond["intensity"]))
@@ -110,6 +119,10 @@ def render(conditions: dict, mapping: dict):
         goal = mapping["symmetric_goals"][br["goal"]]["label"]
         title = f"{goal} 강화 → {cond_name}"
         source_label = "근활성도 기반"
+    elif br["source"] == "forced":
+        goal = mapping["symmetric_goals"][br["goal"]]["label"]
+        title = f"{goal} → {cond_name}"
+        source_label = "관절 부담 최저 모드"
     else:
         title = f"추천 세팅 → {cond_name}"
         source_label = None
@@ -120,14 +133,38 @@ def render(conditions: dict, mapping: dict):
     with left:
         _render_settings_card(cond)
         render_illustration(media.get("illustration"), width=320)
-        _render_meta(cond, source_label)
     with right:
         _render_effects(cond)
         render_video(media.get("video"), media.get("video_description"))
 
-    warnings = check_contraindications(cond, st.session_state.get("concerns", []), mapping)
-    if warnings:
-        _render_safety(warnings)
+    # ── 활성 근육 + 관절 부담 + 통증 위험 (사용법 dialog와 일관) ──
+    ma = cond.get("muscle_activation_summary")
+    jl = cond.get("joint_load_summary")
+    pain = cond.get("pain_risks", [])
+    if ma or jl or pain:
+        st.markdown("<br/>", unsafe_allow_html=True)
+        info_l, info_r = st.columns([1, 1])
+        with info_l:
+            if ma:
+                st.markdown(
+                    f'<div class="info-card"><h4>💪 활성화되는 근육</h4><p>{ma}</p></div>',
+                    unsafe_allow_html=True,
+                )
+            if jl:
+                st.markdown(
+                    f'<div class="info-card"><h4>🦴 관절 부담</h4><p>{jl}</p></div>',
+                    unsafe_allow_html=True,
+                )
+        with info_r:
+            muscle_illust = media.get("muscle_illustration")
+            if muscle_illust:
+                render_illustration(muscle_illust, width=280)
+            if pain:
+                items = "".join(f"<li>{p}</li>" for p in pain)
+                st.markdown(
+                    f'<div class="pain-card"><h4>⚠️ 다음과 같은 통증·상태가 있다면 주의</h4><ul>{items}</ul></div>',
+                    unsafe_allow_html=True,
+                )
 
     st.markdown("<br/>", unsafe_allow_html=True)
     f1, f2, _, again_col = st.columns([1, 1, 1, 2])

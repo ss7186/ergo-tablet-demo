@@ -21,6 +21,15 @@ def _muscle_score(condition: dict, goal: dict) -> float:
 
 def _symmetric_recommend(goal_key: str, conditions: dict, mapping: dict) -> tuple[str, dict, dict]:
     goal = mapping["symmetric_goals"][goal_key]
+    # _forced_recommendation: goal이 강화 score로 표현되지 않는 deload/mobility 처방용.
+    # 예) "관절 휴식" → AIAI 강제 (ADR-002).
+    forced = goal.get("_forced_recommendation")
+    if forced and forced in conditions:
+        return forced, conditions[forced], {
+            "source": "forced",
+            "goal": goal_key,
+            "rationale": goal.get("_clinical", ""),
+        }
     best_key, best_score = None, float("-inf")
     for cond_key, cond_data in conditions.items():
         if cond_key.startswith("_"):

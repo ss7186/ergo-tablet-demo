@@ -245,6 +245,240 @@ button[kind="primary"],
   font-size: 0.95rem;
 }
 
+.coaching-card {
+  background: #eef2ff;
+  border-left: 4px solid #6366f1;
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  margin-top: 0.8rem;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.coaching-icon { font-size: 1.3rem; margin-right: 0.4rem; }
+
+.welcome-sub-en {
+  font-size: 1.4rem;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.howto-setting-card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: 0.6rem 0;
+}
+
+.howto-setting-card.vertical {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 320px;
+  padding: 1.2rem;
+}
+.setting-row-v {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.7rem;
+  text-align: center;
+}
+.setting-row-v:last-child { margin-bottom: 0; }
+.setting-row-v .lr-tag {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+.setting-row-v .lr-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.info-card.compact {
+  padding: 0.7rem 0.9rem;
+  margin: 0 0 0.5rem;
+}
+.info-card.compact h4 {
+  font-size: 1rem;
+  margin: 0 0 0.3rem;
+}
+.info-card.compact p {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.info-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  justify-content: flex-start;
+}
+.info-wrap > * {
+  margin: 0 !important;
+}
+
+.effect-card.equal-h {
+  display: flex;
+  flex-direction: column;
+}
+.effect-card.equal-h .effect-list {
+  flex: 1;
+}
+
+/* === Mode / Goal / Side / Symptom 카드 폰트 강조 === */
+.stButton > button[data-testid*="mode_"],
+.stButton > button[data-testid*="goal_"],
+.stButton > button[data-testid*="side_"],
+.stButton > button[data-testid*="sym_"] {
+  font-size: 1.7rem !important;
+  font-weight: 700 !important;
+  min-height: 140px;
+  line-height: 1.3;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition: transform 0.12s, box-shadow 0.15s, border-color 0.15s;
+}
+.stButton > button[data-testid*="mode_"]:hover,
+.stButton > button[data-testid*="goal_"]:hover,
+.stButton > button[data-testid*="side_"]:hover,
+.stButton > button[data-testid*="sym_"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.16);
+}
+.card-sub {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--muted);
+  margin: -0.3rem 0 0.9rem;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+/* === Dialog 더 넓게 (사용 순서 그림이 잘 보이도록) === */
+div[data-testid="stDialog"] > div,
+div[role="dialog"] {
+  max-width: 1400px !important;
+  width: 95vw !important;
+}
+
+/* === Dialog 내부 section 헤더 styling === */
+div[data-testid="stDialog"] h3 {
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin: 0.5rem 0 0.8rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--border);
+  font-weight: 700;
+}
+div[data-testid="stDialog"] hr {
+  margin: 1.5rem 0 1rem !important;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* 사용 순서 그림이 dialog 폭에 정확히 맞도록 */
+div[data-testid="stDialog"] [data-testid="stImage"] img {
+  border-radius: 12px;
+}
+
+/* === Welcome 카드 일관성 polish === */
+.setting-card, .effect-card, .info-card, .howto-setting-card {
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+  transition: box-shadow 0.15s;
+}
+
+/* tabs 폰트 키움 */
+button[data-baseweb="tab"] {
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
+  padding: 0.7rem 1.2rem !important;
+}
+
+.info-card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  margin: 0.6rem 0;
+}
+.info-card h4 {
+  margin: 0 0 0.4rem;
+  font-size: 1.1rem;
+  color: var(--primary);
+}
+.info-card p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.pain-card {
+  background: #fef2f2;
+  border: 2px solid #fecaca;
+  border-left: 5px solid #ef4444;
+  border-radius: var(--radius);
+  padding: 1rem 1.3rem;
+  margin: 0.8rem 0;
+}
+.pain-card h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: #b91c1c;
+}
+.pain-card ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.pain-card li {
+  font-size: 1.05rem;
+  padding: 0.25rem 0;
+  color: var(--text);
+}
+
+/* === Howto dialog 조건 선택 radio (font 크게) === */
+.stRadio > label {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+}
+.stRadio div[role="radiogroup"] label {
+  font-size: 1.2rem !important;
+  padding: 0.4rem 0.8rem !important;
+}
+.stRadio div[role="radiogroup"] label p {
+  font-size: 1.2rem !important;
+  font-weight: 500 !important;
+}
+
+.illust-cap {
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 0.4rem;
+}
+
+.illust-fixed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.illust-fixed img {
+  display: block;
+}
+
+.media-placeholder.small {
+  min-height: 120px;
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+
 .media-placeholder {
   background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
   border: 2px dashed var(--border);

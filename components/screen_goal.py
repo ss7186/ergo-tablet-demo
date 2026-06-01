@@ -15,7 +15,7 @@ def render(mapping: dict):
             label = f"{goal['emoji']}\n\n{goal['label']}"
             if st.button(label, key=f"goal_{key}", use_container_width=True):
                 st.session_state.sym_goal = key
-                st.session_state.screen = "concern"
+                st.session_state.screen = "result"
                 st.rerun()
 
     st.markdown("<br/>", unsafe_allow_html=True)

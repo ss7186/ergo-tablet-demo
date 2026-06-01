@@ -1,4 +1,5 @@
 """Media (영상/일러스트) 렌더 헬퍼. 파일 없을 때 안전한 fallback."""
+import base64
 from pathlib import Path
 from typing import Optional
 import streamlit as st
@@ -65,3 +66,34 @@ def render_video(rel_path: Optional[str], description: Optional[str] = None):
 
 def has_media(rel_path: Optional[str]) -> bool:
     return _resolve(rel_path) is not None
+
+
+def render_illustration_fixed_height(rel_path: Optional[str], height: int = 320, caption: Optional[str] = None):
+    """일러스트를 고정 높이로 표시. 다른 그림과 height를 맞출 때 사용.
+
+    width는 자동(max 100%), object-fit: contain으로 비율 유지.
+    """
+    resolved = _resolve(rel_path)
+    if resolved is None:
+        st.markdown(
+            f'<div class="illust-fixed" style="min-height:{height}px;">'
+            f'<div class="media-placeholder small">🖼️ {rel_path or "준비 중"}</div></div>',
+            unsafe_allow_html=True,
+        )
+        return
+    if isinstance(resolved, Path):
+        ext = resolved.suffix.lstrip(".").lower()
+        if ext == "jpg":
+            ext = "jpeg"
+        b64 = base64.b64encode(resolved.read_bytes()).decode("ascii")
+        src = f"data:image/{ext};base64,{b64}"
+    else:
+        src = resolved  # URL
+    st.markdown(
+        f'<div class="illust-fixed" style="height:{height}px;">'
+        f'<img src="{src}" style="max-height:100%; max-width:100%; object-fit:contain;" />'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+    if caption:
+        st.caption(caption)

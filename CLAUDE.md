@@ -7,7 +7,7 @@
 
 ## 0. 정체성
 
-- **앱**: 병원 헬스장 직원용 비대칭 조정 에르고미터 태블릿 데모 (Streamlit, Python)
+- **앱**: 병원 헬스장 직원용 다축 에르고미터 태블릿 데모 (Streamlit, Python)
 - **목적**: 직원이 30초 안에 본인 증상에 맞는 ergometer 페달 세팅 추천 받음
 - **근거**: [ASYMM]/analysis/PROTOCOL_v2.md (n=15 OpenSim + n=7 페달 + n=3 VICON, 83% hit rate)
 - **배포**:

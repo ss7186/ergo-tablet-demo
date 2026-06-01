@@ -48,8 +48,12 @@
     "media": {
       "illustration": "illustrations/nene.png",
       "video": "videos/nene.mp4",
-      "video_description": "양쪽 페달을 수평으로 두고 일반 자전거처럼 페달링합니다."
-    }
+      "video_description": "양쪽 페달을 수평으로 두고 일반 자전거처럼 페달링합니다.",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_5.png"
+    },
+    "joint_load_summary": "관절 부담 균등 — 일반 자전거와 동일",
+    "muscle_activation_summary": "허벅지 앞쪽·종아리가 표준 페달링처럼 일함",
+    "pain_risks": []
   },
   "ADNE": {
     "name_kr": "오른쪽 발끝 안쪽",
@@ -107,8 +111,15 @@
     "media": {
       "illustration": "illustrations/adne.png",
       "video": "videos/adad.mp4",
-      "video_description": "오른쪽 발끝 안쪽. 영상은 양쪽 적용 예시."
-    }
+      "video_description": "오른쪽 발끝 안쪽. 영상은 양쪽 적용 예시.",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_3.png"
+    },
+    "joint_load_summary": "오른쪽 무릎 안쪽 부담 ↑ · 왼쪽은 평상시 부담",
+    "muscle_activation_summary": "오른쪽 엉덩이 옆 근육이 강하게 일함, 왼쪽은 균형 학습",
+    "pain_risks": [
+      "우측 무릎 안쪽 통증·varus OA",
+      "우측 고관절 인공관절 < 12주"
+    ]
   },
   "NEAD": {
     "name_kr": "왼쪽 발끝 안쪽",
@@ -166,8 +177,15 @@
     "media": {
       "illustration": "illustrations/nead.png",
       "video": "videos/adad.mp4",
-      "video_description": "왼쪽 발끝 안쪽. 영상은 양쪽 적용 예시."
-    }
+      "video_description": "왼쪽 발끝 안쪽. 영상은 양쪽 적용 예시.",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_3.png"
+    },
+    "joint_load_summary": "왼쪽 무릎 안쪽 부담 ↑ · 오른쪽은 평상시 부담",
+    "muscle_activation_summary": "왼쪽 엉덩이 옆 근육이 강하게 일함, 오른쪽은 균형 학습",
+    "pain_risks": [
+      "좌측 무릎 안쪽 통증·varus OA",
+      "좌측 고관절 인공관절 < 12주"
+    ]
   },
   "AENE": {
     "name_kr": "오른쪽 발끝 바깥",
@@ -228,8 +246,15 @@
     "media": {
       "illustration": "illustrations/aene.png",
       "video": "videos/aeae.mp4",
-      "video_description": "오른쪽 발끝 바깥. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일)."
-    }
+      "video_description": "오른쪽 발끝 바깥. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일).",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_ae_unilat_synth.png"
+    },
+    "joint_load_summary": "오른쪽 허벅지 안쪽·골반 회전 부담 ↑",
+    "muscle_activation_summary": "오른쪽 허벅지 안쪽 + 고관절 회전 안정근 + 허리 회전근이 강하게 일함",
+    "pain_risks": [
+      "우측 대전자 점액낭염",
+      "우측 고관절 후방 인공관절"
+    ]
   },
   "NEAE": {
     "name_kr": "왼쪽 발끝 바깥",
@@ -290,8 +315,15 @@
     "media": {
       "illustration": "illustrations/neae.png",
       "video": "videos/aeae.mp4",
-      "video_description": "왼쪽 발끝 바깥. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일)."
-    }
+      "video_description": "왼쪽 발끝 바깥. 영상은 양쪽 적용 예시 (한쪽만 적용해도 모드 동작은 동일).",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_ae_unilat_synth.png"
+    },
+    "joint_load_summary": "왼쪽 허벅지 안쪽·골반 회전 부담 ↑",
+    "muscle_activation_summary": "왼쪽 허벅지 안쪽 + 고관절 회전 안정근 + 허리 옆구리 안정근이 강하게 일함",
+    "pain_risks": [
+      "좌측 대전자 점액낭염",
+      "좌측 고관절 후방 인공관절"
+    ]
   },
   "AINE": {
     "name_kr": "오른쪽 발끝 안쪽+외번",
@@ -347,8 +379,14 @@
     "media": {
       "illustration": "illustrations/aine.png",
       "video": "videos/aiai.mp4",
-      "video_description": "오른쪽 발끝 안쪽 + 외번. 영상은 양쪽 적용 예시."
-    }
+      "video_description": "오른쪽 발끝 안쪽 + 외번. 영상은 양쪽 적용 예시.",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_8.png"
+    },
+    "joint_load_summary": "오른쪽 발목·고관절 회전 부담 약간 · 전반적 부담 낮음",
+    "muscle_activation_summary": "오른쪽 엉덩이 깊은 회전 근육이 가볍게 자극",
+    "pain_risks": [
+      "우측 ACL 재건 < 6개월"
+    ]
   },
   "NEAI": {
     "name_kr": "왼쪽 발끝 안쪽+외번",
@@ -406,10 +444,17 @@
     "media": {
       "illustration": "illustrations/neai.png",
       "video": "videos/aiai.mp4",
-      "video_description": "왼쪽 발끝 안쪽 + 외번. 영상은 양쪽 적용 예시."
-    }
+      "video_description": "왼쪽 발끝 안쪽 + 외번. 영상은 양쪽 적용 예시.",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_8.png"
+    },
+    "joint_load_summary": "왼쪽 발목·고관절 회전 부담 약간 · 골반 좌우 처짐 가장 강하게 보정",
+    "muscle_activation_summary": "왼쪽 엉덩이 깊은 회전 근육 + 골반 좌우 안정 근육 자극",
+    "pain_risks": [
+      "좌측 ACL 재건 < 6개월"
+    ]
   },
   "ADAD": {
+    "_score_source": "ADR-001 + ADR-003 (2026-06-01 accepted). ADAD = JOSR ADI. n=15 OpenSim MA + n=21 EMG. JOSR: glmed1 +105%, glmed2 +43%, glmin1-3 +28~34%. EMG: SM push +110%, Sart push/pull ↑. Add score는 SHK 임상 해석으로 SM+Sart=adductor surrogate. n=15 phase-resolved: glmed1 모든 bin +198~318%.",
     "name_kr": "양쪽 발끝 안쪽",
     "right_pedal": "AD",
     "left_pedal": "AD",
@@ -418,16 +463,20 @@
     "symmetry": "symm",
     "stimulated_side": "both",
     "mechanism_target": [
-      "양쪽 엉덩이 옆 근육 (외전근)"
+      "양쪽 엉덩이 옆 근육 (앞쪽 fiber)",
+      "양쪽 허벅지 안쪽 근육 (내전근)",
+      "양쪽 햄스트링 안쪽"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "양쪽 엉덩이 옆 근육",
-        "양쪽 무릎 안정근"
+        "양쪽 엉덩이 옆 근육 (앞쪽)",
+        "양쪽 허벅지 안쪽 근육",
+        "양쪽 햄스트링 안쪽"
       ],
       "load_decreased": [],
       "load_increased": [],
-      "contralateral_note": null
+      "contralateral_note": null,
+      "coaching_cue": "엉덩이 옆 앞쪽 + 허벅지 안쪽이 강하게 일합니다. 햄스트링/종아리는 평상시 그대로."
     },
     "biomech_data": {
       "outcomes": {
@@ -444,13 +493,55 @@
         "pedal_SI_Fz_shift": 0
       },
       "muscles": {
-        "Gmed_R": 75,
-        "Gmed_L": 75,
-        "Add_R": -20,
-        "Add_L": -20,
-        "ER_R": 5,
-        "ER_L": 5,
+        "Gmed_R": 50,
+        "Gmed_L": 50,
+        "Add_R": 60,
+        "Add_L": 60,
+        "ER_R": -10,
+        "ER_L": -10,
         "Trunk": 5
+      },
+      "phase_resolved": {
+        "_source": "ADR-003 (2026-06-01) — n=15 OpenSim MuscleAnalysis",
+        "_n_abs": 8,
+        "_n_paired_max": 3,
+        "evidence_top3": [
+          {
+            "muscle": "glmed1_r",
+            "bin": "pull_eccentric",
+            "pct_vs_nene": 318,
+            "n_paired": 3,
+            "note": "anterior Gmed eccentric — 4x"
+          },
+          {
+            "muscle": "glmed1_r",
+            "bin": "push_concentric",
+            "pct_vs_nene": 198,
+            "n_paired": 3,
+            "note": "anterior Gmed 3x — JOSR fascicle 확인"
+          },
+          {
+            "muscle": "addmagMid_r",
+            "bin": "pull_eccentric",
+            "pct_vs_nene": 351,
+            "n_paired": 3,
+            "note": "adductor eccentric"
+          }
+        ],
+        "baseline_preserved": [
+          {
+            "muscle": "semimem_r",
+            "bin": "push_concentric",
+            "pct_vs_nene": -6,
+            "note": "hamstring power 유지"
+          },
+          {
+            "muscle": "gasmed_r",
+            "bin": "push_concentric",
+            "pct_vs_nene": -7,
+            "note": "calf power 유지"
+          }
+        ]
       }
     },
     "intensity": "강함",
@@ -465,10 +556,18 @@
     "media": {
       "illustration": "illustrations/adad.png",
       "video": "videos/adad.mp4",
-      "video_description": "양쪽 페달을 발끝 안쪽 방향으로 고정. 양쪽 엉덩이 옆 근육을 균등하게 강화합니다."
-    }
+      "video_description": "양쪽 페달을 발끝 안쪽 방향으로 고정. 양쪽 엉덩이 옆 근육을 균등하게 강화합니다.",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_3.png"
+    },
+    "joint_load_summary": "양쪽 무릎 안쪽 부담 ↑ (knee adduction moment 증가) · 고관절 부담 증가",
+    "muscle_activation_summary": "양쪽 엉덩이 옆 앞부분(Gmed anterior)이 3–4배 강하게 일함 · 허벅지 안쪽도 동원",
+    "pain_risks": [
+      "무릎 안쪽 통증 · 관절염(varus OA)",
+      "고관절 인공관절 수술 후 12주 미만"
+    ]
   },
   "AEAE": {
+    "_score_source": "ADR-001 + ADR-003 (2026-06-01 accepted). AEAE = JOSR ABE. n=15 OpenSim MA. Whole-cycle: glmax1 +90% (JOSR), glmed3 +19%. Phase-resolved: glmax1 push_concentric +108%, glmed3 pull_eccentric absolute max.",
     "name_kr": "양쪽 발끝 바깥",
     "right_pedal": "AE",
     "left_pedal": "AE",
@@ -477,17 +576,21 @@
     "symmetry": "symm",
     "stimulated_side": "both",
     "mechanism_target": [
-      "양쪽 허벅지 안쪽",
-      "고관절 내회전 안정근"
+      "양쪽 엉덩이 옆 근육 (외전근 복합)",
+      "골반 좌우 안정근"
     ],
     "user_friendly_effects": {
       "muscles_strengthened": [
-        "양쪽 허벅지 안쪽 근육",
-        "고관절 회전 안정근"
+        "양쪽 엉덩이 옆 근육 (뒤·위쪽)",
+        "골반 좌우 안정근",
+        "허리 회전 안정근"
       ],
-      "load_decreased": [],
+      "load_decreased": [
+        "햄스트링 부담"
+      ],
       "load_increased": [],
-      "contralateral_note": null
+      "contralateral_note": null,
+      "coaching_cue": "내릴 때 엉덩이 옆 뒤·위쪽 근육이 강하게 들어갑니다. 올릴 때도 계속 일해요."
     },
     "biomech_data": {
       "outcomes": {
@@ -504,13 +607,50 @@
         "pedal_SI_Fz_shift": 0
       },
       "muscles": {
-        "Gmed_R": -10,
-        "Gmed_L": -10,
-        "Add_R": 65,
-        "Add_L": 65,
-        "ER_R": 60,
-        "ER_L": 60,
+        "Gmed_R": 60,
+        "Gmed_L": 60,
+        "Add_R": 0,
+        "Add_L": 0,
+        "ER_R": 15,
+        "ER_L": 15,
         "Trunk": 20
+      },
+      "phase_resolved": {
+        "_source": "ADR-003 (2026-06-01) — n=15 OpenSim MuscleAnalysis",
+        "_n_abs": 11,
+        "_n_paired_max": 4,
+        "evidence_top3": [
+          {
+            "muscle": "glmax1_r",
+            "bin": "push_concentric",
+            "pct_vs_nene": 108,
+            "n_paired": 4,
+            "note": "primary effect: Gmax-superior 2x activation"
+          },
+          {
+            "muscle": "glmed3_r",
+            "bin": "pull_eccentric",
+            "pct_vs_nene": 115,
+            "n_paired": 4,
+            "note": "absolute max 3.12 — eccentric brake during upstroke"
+          },
+          {
+            "muscle": "glmed3_r",
+            "bin": "push_eccentric",
+            "pct_vs_nene": 112,
+            "n_paired": 4,
+            "note": "eccentric overload during downstroke"
+          }
+        ],
+        "deload_top": [
+          {
+            "muscle": "semimem_r",
+            "bin": "push_concentric",
+            "pct_vs_nene": -29,
+            "n_paired": 4,
+            "note": "hamstring reduced — hip motion contracted"
+          }
+        ]
       }
     },
     "intensity": "강함",
@@ -525,10 +665,19 @@
     "media": {
       "illustration": "illustrations/aeae.png",
       "video": "videos/aeae.mp4",
-      "video_description": "양쪽 페달을 발끝 바깥 방향으로 고정. 양쪽 허벅지 안쪽과 골반 회전 안정성을 균등하게 자극합니다."
-    }
+      "video_description": "양쪽 페달을 발끝 바깥 방향으로 고정. 양쪽 허벅지 안쪽과 골반 회전 안정성을 균등하게 자극합니다.",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_7.png"
+    },
+    "joint_load_summary": "허벅지 안쪽·골반 회전 부담 ↑ · 대전자 압박 가능",
+    "muscle_activation_summary": "내릴 때 양쪽 엉덩이 옆 뒤·위(Gmax-superior) 2배 자극 · 허벅지 안쪽 + 허리 회전 안정근도 동원",
+    "pain_risks": [
+      "대전자 점액낭염 (엉덩이 바깥쪽 통증)",
+      "고관절 후방 인공관절",
+      "급성 요추 통증·디스크 (회전 자극)"
+    ]
   },
   "AIAI": {
+    "_score_source": "ADR-001 + ADR-002 + ADR-003 (2026-06-01 accepted). AIAI = JOSR ABI. n=15 OpenSim MA. 모든 lower-limb muscle systemic deload (iliacus -40%, glmin1 -39%, glmax2 -31%, TFL -22%). Positioning: deload/mobility/ITBS subacute/회복기.",
     "name_kr": "양쪽 발끝 안쪽+외번",
     "right_pedal": "AI",
     "left_pedal": "AI",
@@ -537,15 +686,19 @@
     "symmetry": "symm",
     "stimulated_side": "both",
     "mechanism_target": [
-      "양쪽 고관절 회전 control"
+      "양쪽 고관절 자세 변형 (wide stance)",
+      "엉덩이 굽힘 근육 휴식"
     ],
     "user_friendly_effects": {
-      "muscles_strengthened": [
-        "양쪽 엉덩이 깊은 회전 근육"
+      "muscles_strengthened": [],
+      "load_decreased": [
+        "양쪽 엉덩이 굽힘 근육",
+        "엉덩이 옆 근육 부담",
+        "허리·골반 회전 부담"
       ],
-      "load_decreased": [],
       "load_increased": [],
-      "contralateral_note": null
+      "contralateral_note": "강화보다 휴식·자세 변형이 목적입니다. 다른 운동 후 회복 세션으로 좋아요.",
+      "coaching_cue": "엉덩이·허리 굽힘근이 푹 쉽니다 (특히 올릴 때)."
     },
     "biomech_data": {
       "outcomes": {
@@ -562,13 +715,55 @@
         "pedal_SI_Fz_shift": 0
       },
       "muscles": {
-        "Gmed_R": 5,
-        "Gmed_L": 5,
-        "Add_R": 10,
-        "Add_L": 10,
-        "ER_R": 70,
-        "ER_L": 70,
-        "Trunk": 10
+        "Gmed_R": -20,
+        "Gmed_L": -20,
+        "Add_R": -10,
+        "Add_L": -10,
+        "ER_R": -25,
+        "ER_L": -25,
+        "Trunk": 0
+      },
+      "phase_resolved": {
+        "_source": "ADR-003 (2026-06-01) — n=15 OpenSim MuscleAnalysis (deload condition)",
+        "_n_abs": 10,
+        "_n_paired_max": 3,
+        "deload_top": [
+          {
+            "muscle": "iliacus_r",
+            "bin": "pull_eccentric",
+            "pct_vs_nene": -96,
+            "n_paired": 3,
+            "note": "hip flexor 거의 완전 휴식"
+          },
+          {
+            "muscle": "glmed1_r",
+            "bin": "pull_eccentric",
+            "pct_vs_nene": -98,
+            "n_paired": 3,
+            "note": "anterior Gmed 완전 deload"
+          },
+          {
+            "muscle": "glmax1_r",
+            "bin": "push_concentric",
+            "pct_vs_nene": -89,
+            "n_paired": 3,
+            "note": "Gmax-sup 강한 deload"
+          },
+          {
+            "muscle": "iliacus_r",
+            "bin": "pull_concentric",
+            "pct_vs_nene": -70,
+            "n_paired": 3,
+            "note": "hip flexor concentric 휴식"
+          },
+          {
+            "muscle": "tfl_r",
+            "bin": "pull_concentric",
+            "pct_vs_nene": -61,
+            "n_paired": 3,
+            "note": "TFL 큰 deload (ITBS subacute 적합)"
+          }
+        ]
       }
     },
     "intensity": "강함",
@@ -583,7 +778,14 @@
     "media": {
       "illustration": "illustrations/aiai.png",
       "video": "videos/aiai.mp4",
-      "video_description": "양쪽 페달을 발끝 안쪽 + 외번 방향으로 고정. 양쪽 고관절 회전 control을 균등하게 자극합니다."
-    }
+      "video_description": "양쪽 페달을 발끝 안쪽 + 외번 방향으로 고정. 양쪽 고관절 회전 control을 균등하게 자극합니다.",
+      "muscle_illustration": "illustrations/muscle_pool/muscle_aiai_synth.png"
+    },
+    "joint_load_summary": "관절 전체 부담 최저 (hip/ankle JRF 가장 낮음) · 회복기 적합",
+    "muscle_activation_summary": "엉덩이·허리 굽힘근(iliacus·TFL)이 푹 쉼 · 발목·고관절 회전 control 근육만 가볍게 자극",
+    "pain_risks": [
+      "ACL 재건 < 6개월 (전방 전단력 주의)",
+      "급성 요추 디스크 — 시작은 천천히"
+    ]
   }
 }
