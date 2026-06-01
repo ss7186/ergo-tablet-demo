@@ -1,189 +1,89 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-from utils.media import render_video, render_illustration, render_illustration_fixed_height, has_media
-from utils.data_loader import load_conditions
-
-
-def _render_condition_detail(cond: dict):
-    """사용법 dialog 안에서 선택된 condition 상세 표시.
-
-    Equal-height layout: 모든 행에서 좌우 column의 끝 지점이 동일하도록
-    각 block을 fixed min-height + flex로 강제.
-
-    레이아웃:
-      1. [페달 자세 block] · [활성 근육 block]                  (height: BLOCK_H)
-      2. [주요 효과] · [운동 팁 + 통증 위험]                     (height: ROW2_H)
-      3. 조건 영상 (전폭)
-    """
-    media = cond.get("media", {}) or {}
-    BLOCK_H = 320
-    ROW2_H = 360
-
-    sym = cond.get("symmetry", "symm")
-    sym_label = "양쪽 같은 세팅" if sym == "symm" else "왼쪽 / 오른쪽 다른 세팅"
-    ma = cond.get("muscle_activation_summary", "")
-    jl = cond.get("joint_load_summary", "")
-
-    # ── 1행: 페달 자세 block | 활성 근육 block (둘 다 BLOCK_H로 통일) ──
-    pedal_block, muscle_block = st.columns([1, 1])
-
-    with pedal_block:
-        st.markdown('<p class="illust-cap">페달 자세</p>', unsafe_allow_html=True)
-        p_ill, p_info = st.columns([1, 1])
-        with p_ill:
-            render_illustration_fixed_height(media.get("illustration"), height=BLOCK_H)
-        with p_info:
-            st.markdown(
-                f"""
-                <div class="howto-setting-card vertical" style="min-height:{BLOCK_H}px;">
-                  <p class="setting-sub">{sym_label}</p>
-                  <div class="setting-row-v">
-                    <div class="lr-tag">👈 왼쪽 페달</div>
-                    <div class="lr-value">{cond.get('left_setting_label', '수평')}</div>
-                  </div>
-                  <div class="setting-row-v">
-                    <div class="lr-tag">👉 오른쪽 페달</div>
-                    <div class="lr-value">{cond.get('right_setting_label', '수평')}</div>
-                  </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-    with muscle_block:
-        st.markdown('<p class="illust-cap">🔴 활성 근육</p>', unsafe_allow_html=True)
-        m_ill, m_info = st.columns([1, 1])
-        with m_ill:
-            render_illustration_fixed_height(media.get("muscle_illustration"), height=BLOCK_H)
-        with m_info:
-            cards = []
-            if ma:
-                cards.append(f'<div class="info-card compact"><h4>💪 활성 근육</h4><p>{ma}</p></div>')
-            if jl:
-                cards.append(f'<div class="info-card compact"><h4>🦴 관절 부담</h4><p>{jl}</p></div>')
-            wrap = f'<div class="info-wrap" style="min-height:{BLOCK_H}px;">{"".join(cards)}</div>'
-            st.markdown(wrap, unsafe_allow_html=True)
-
-    # ── 2행: 주요 효과 | 운동 팁 + 통증 위험 ──
-    eff = cond.get("user_friendly_effects", {})
-    targets = cond.get("mechanism_target", [])
-    rows = []
-    for t in targets:
-        rows.append(f'<li class="eff-good">🎯 <b>{t}</b> 타겟</li>')
-    for m in eff.get("muscles_strengthened", []):
-        rows.append(f'<li class="eff-good">💪 <b>{m}</b> 강화</li>')
-    for m in eff.get("load_decreased", []):
-        rows.append(f'<li class="eff-good">✅ <b>{m}</b> 부담 감소</li>')
-    for m in eff.get("load_increased", []):
-        rows.append(f'<li class="eff-warn">⚠️ <b>{m}</b> 증가 (참고)</li>')
-    note = eff.get("contralateral_note")
-    if note:
-        rows.append(f'<li class="eff-info">🧠 {note}</li>')
-
-    eff_l, side_r = st.columns([1, 1])
-    with eff_l:
-        st.markdown(
-            f'<div class="effect-card equal-h" style="min-height:{ROW2_H}px;">'
-            f'<h3>주요 효과</h3><ul class="effect-list">{"".join(rows)}</ul></div>',
-            unsafe_allow_html=True,
-        )
-    with side_r:
-        side_html = [f'<div class="info-wrap" style="min-height:{ROW2_H}px;">']
-        cue = eff.get("coaching_cue")
-        if cue:
-            side_html.append(
-                f'<div class="coaching-card"><span class="coaching-icon">💡</span> <b>운동 팁</b><br/>{cue}</div>'
-            )
-        pain = cond.get("pain_risks", [])
-        if pain:
-            items = "".join(f"<li>{p}</li>" for p in pain)
-            side_html.append(
-                f'<div class="pain-card"><h4>⚠️ 다음과 같은 통증·상태가 있다면 주의</h4><ul>{items}</ul></div>'
-            )
-        side_html.append("</div>")
-        st.markdown("".join(side_html), unsafe_allow_html=True)
-
-    # ── 3행: 조건 영상 ──
-    if has_media(media.get("video")):
-        st.markdown("**🎬 조건 영상**")
-        render_video(media.get("video"), media.get("video_description"))
+from utils.media import render_video, render_illustration, has_media
 
 
-@st.dialog("다축 에르고미터 사용법", width="large")
+@st.dialog(" ", width="large")
 def _howto_dialog():
-    conditions = load_conditions()
+    # dialog 열릴 때 스크롤 최상단으로 강제 (video 자동 focus + scrollIntoView 차단)
+    components.html(
+        """
+        <script>
+        const doc = window.parent.document;
+        const SELECTORS = [
+          'div[role="dialog"]',
+          '[data-testid="stDialog"]',
+          'dialog',
+          '[aria-modal="true"]',
+          '[data-baseweb="modal"]',
+        ];
+        const forceTop = () => {
+          // 1. video 자동 스크롤 차단
+          doc.querySelectorAll('video').forEach(v => {
+            v.tabIndex = -1;
+            v.scrollIntoView = () => {};
+            v.autofocus = false;
+          });
+          // 2. dialog 및 모든 scrollable 자식 top으로
+          SELECTORS.forEach(sel => {
+            doc.querySelectorAll(sel).forEach(dlg => {
+              dlg.scrollTop = 0;
+              dlg.querySelectorAll('*').forEach(el => {
+                if (el.scrollHeight > el.clientHeight) el.scrollTop = 0;
+              });
+            });
+          });
+        };
+        forceTop();
+        [30, 80, 150, 300, 500, 800, 1200].forEach(d => setTimeout(forceTop, d));
+        </script>
+        """,
+        height=0,
+    )
 
-    # 1. 전체 사용법 영상
-    st.markdown("### 전체 사용 안내 영상")
-    render_video("videos/howto_main.mp4", description="다축 에르고미터 사용 전반 안내")
+    # 0. 메인 title (dialog header의 기본 title 외에 본문 시작점)
+    st.markdown('<h1 class="howto-title">에르고미터 사용법</h1>', unsafe_allow_html=True)
+
+    # 1. 에르고미터 부위 안내 이미지
+    if has_media("illustrations/howto_device_parts.png"):
+        render_illustration("illustrations/howto_device_parts.png")
+
+    # 2. 사용 순서
+    st.markdown('<h3 class="howto-step-title">사용 순서</h3>', unsafe_allow_html=True)
+    st.markdown(
+        """
+        **1. 좌석 조정** — 레버를 앞으로 당겨 안장의 위치를 조절합니다.
+        > 페달을 가장 멀리 뻗어 무릎이 살짝 굽혀지는 위치에서 레버를 뒤로 당겨 고정합니다.
+
+        **2. 페달 세팅** — 화면이 추천한 좌·우 페달 각도를 확인하고 기기의 레버를 조절합니다.
+
+        **3. 페달링** — 균일한 속도로 5 ~ 10분 탑니다.
+        > 통증 발생 시 즉시 중단합니다.
+        """
+    )
 
     st.markdown("---")
 
-    # 2. 사용 순서 — 그림 1장으로 통합 (PPT 슬라이드 캡처)
-    st.markdown("### 사용 순서")
-    if has_media("illustrations/howto_steps.png"):
-        render_illustration("illustrations/howto_steps.png")
-    else:
-        # 그림 추가 전 fallback: 텍스트
-        st.markdown(
-            """
-            **1. 회전면 방향 및 페달 각도 조절** — 크랭크 옆 / 페달 옆 / 페달 아래 레버로 조작
-              - 와이드·토인/토아웃 (Abduction): 15°, 30°
-              - 내로우·롤인 (Adduction): 15°
-
-            **2. 부하 조절** — 정면 다이얼로 강도 조절 (여성 8–10 / 남성 12단계 권장)
-
-            **3. 안장 위치 조절** — 페달을 가장 멀리 뻗었을 때 무릎이 살짝 굽혀지는 위치로 고정
-            """
-        )
-        st.info(
-            "📌 통합 조작법 그림이 들어올 자리: `assets/illustrations/howto_steps.png`. "
-            "파일이 추가되면 이 텍스트가 그림으로 교체됩니다."
-        )
+    # 3. 영상 안내
+    st.markdown('<h2 class="howto-section">영상 안내</h2>', unsafe_allow_html=True)
+    render_video("videos/howto_main2.mp4")
 
     st.markdown("---")
 
-    # 3. 조건별 상세 탐색
-    st.markdown("### 각 조건 자세히 보기")
-    st.caption("궁금한 페달 조건을 골라 타겟 근육·부하 방향을 확인하세요")
-
-    cond_keys = [k for k in conditions.keys() if not k.startswith("_")]
-    cond_labels = {k: f"{k} — {conditions[k].get('name_kr', k)}" for k in cond_keys}
-
-    # 대칭 / 비대칭 분리
-    symm_keys = [k for k in cond_keys if conditions[k].get("symmetry") == "symm"]
-    asym_keys = [k for k in cond_keys if conditions[k].get("symmetry") == "asym"]
-
-    tab_symm, tab_asym = st.tabs([f"⚖️ 양쪽 동일 ({len(symm_keys)})", f"🔄 좌우 차이 ({len(asym_keys)})"])
-
-    with tab_symm:
-        choice_s = st.radio(
-            "조건 선택",
-            options=symm_keys,
-            format_func=lambda k: cond_labels[k],
-            key="howto_symm_choice",
-            horizontal=True,
-        )
-        if choice_s:
-            _render_condition_detail(conditions[choice_s])
-
-    with tab_asym:
-        choice_a = st.radio(
-            "조건 선택",
-            options=asym_keys,
-            format_func=lambda k: cond_labels[k],
-            key="howto_asym_choice",
-            horizontal=True,
-        )
-        if choice_a:
-            _render_condition_detail(conditions[choice_a])
+    # 4. 4가지 페달링 모드 — mode1~mode4.png 세로 나열
+    st.markdown('<h2 class="howto-section">4가지 페달링 모드</h2>', unsafe_allow_html=True)
+    for i in range(1, 5):
+        path = f"illustrations/mode{i}.png"
+        if has_media(path):
+            render_illustration(path)
 
 
 def render():
     st.markdown(
         """
         <div class="welcome-wrap">
-          <div class="welcome-brand">KOREA UNIVERSITY GURO HOSPITAL · BIOMEDICAL ENGINEERING</div>
+          <div class="welcome-brand">고려대학교 구로병원 정형외과 강성현교수 | 고려대학교 의공학교실</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -196,8 +96,11 @@ def render():
         st.markdown(
             """
             <div class="welcome-text">
-              <h1 class="welcome-title">다축 에르고미터<br/><span class="welcome-sub-en">Multi-axis Ergometer</span></h1>
-              <p class="welcome-sub">페달링의 회전면과 각도를 조절하여<br/>다양한 하지 근육을 선택적으로 타겟하는<br/>맞춤형 사이클 운동 기기</p>
+              <div class="title-wrap">
+                <h1 class="welcome-title">Triplanar ERGO</h1>
+                <p class="welcome-subtitle">다축 조정 자전거 에르고미터</p>
+              </div>
+              <p class="welcome-sub">페달링의 회전면과 각도를 조절하여 다양한 하지 근육을 선택적으로 타겟하는 맞춤형 사이클 운동 기기</p>
               <p class="welcome-cta">30초만 투자하시면<br/>오늘의 맞춤 세팅을 추천해드려요</p>
             </div>
             """,
@@ -215,6 +118,6 @@ def render():
             _howto_dialog()
 
     st.markdown(
-        '<p class="disclaimer">본 device의 일반적 효과를 안내합니다. 의학적 조언이 아닙니다.</p>',
+        '<p class="disclaimer">본 기기는 운동 가이드를 안내할 뿐 의학적 조언을 대신하지 않습니다.<br/>통증이 있으면 운동을 멈추고 전문의와 상담해주세요.</p>',
         unsafe_allow_html=True,
     )

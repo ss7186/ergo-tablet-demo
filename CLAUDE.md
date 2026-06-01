@@ -37,11 +37,13 @@
 - **수치 노출 최소**: 결과 화면에 %/N·m 같은 raw 수치 X. 화살표/이모지/색으로
 - **PROTOCOL_v2 매트릭스 임의 변경 금지**: `data/goal_concern_mapping.json::prescription_matrix` 는 [ASYMM] 연구 근거에 기반. 변경 요청 시 PROTOCOL_v2.md 근거를 사용자와 확인
 - **condition 코드**: 4문자 = **앞 2글자=오른쪽 페달, 뒤 2글자=왼쪽 페달** (HANDOFF.md §1 명시). 절대 좌/우 뒤집지 말 것
-- **모듈 의미** (PROTOCOL_v2 §1):
-  - **AD** (toes-in) → hip ABDUCTS → 외전근(Gmed) 동원
-  - **AE** (toes-out + ER) → hip ADDUCTS → 내전근 + ER stabilizer + trunk
-  - **AI** (toes-in + everted) → rotation ROM 증가 → 회전 control
-  - 모듈 이름은 발 동작, joint 효과는 보상 방향 — 헷갈리기 쉬움
+- **모듈 의미** (사용자 정정 기준):
+  - **NE** = Neutral → "기본 모드"
+  - **AD** = adduction + inversion → "내로우 · 롤인"
+  - **AE** = abduction + eversion + IR (toe-in) → "와이드 · 토인"
+  - **AI** = abduction + inversion + ER (toe-out) → "와이드 · 토아웃"
+  - 표시 명칭(`name_kr`)은 `data/conditions.json`의 각 condition 필드 참조
+  - 비대칭 표기: `XXNE` → "오른쪽 {name}", `NEXX` → "왼쪽 {name}"
 
 ---
 

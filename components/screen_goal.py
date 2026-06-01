@@ -21,6 +21,6 @@ def render(mapping: dict):
     st.markdown("<br/>", unsafe_allow_html=True)
     _, back, _ = st.columns([2, 1, 2])
     with back:
-        if st.button("◀ 이전", key="goal_back", use_container_width=True):
+        if st.button("◀ 이전", key="goal_back", type="tertiary"):
             st.session_state.screen = "mode"
             st.rerun()

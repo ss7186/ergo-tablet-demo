@@ -11,20 +11,15 @@ def render(mapping: dict):
     for col, key in zip(cols, ["symmetric", "asymmetric"]):
         spec = modes[key]
         with col:
-            # 큰 라벨만 button에. sub_label은 button 아래 caption으로 — 폰트 대비 명확.
-            label = f"{spec['emoji']}  {spec['label']}"
+            label = f"{spec['emoji']}\n**{spec['label']}**\n\n{spec['sub_label']}"
             if st.button(label, key=f"mode_{key}", use_container_width=True):
                 st.session_state.top_mode = key
                 st.session_state.screen = "sym_goal" if key == "symmetric" else "asym_side"
                 st.rerun()
-            st.markdown(
-                f'<p class="card-sub">{spec["sub_label"]}</p>',
-                unsafe_allow_html=True,
-            )
 
     st.markdown("<br/>", unsafe_allow_html=True)
     _, back, _ = st.columns([2, 1, 2])
     with back:
-        if st.button("◀ 처음으로", key="mode_back", use_container_width=True):
+        if st.button("◀ 처음으로", key="mode_back", type="tertiary"):
             st.session_state.screen = "welcome"
             st.rerun()
