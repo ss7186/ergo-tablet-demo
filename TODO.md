@@ -47,6 +47,21 @@
 - **결정 주체**: **임상 검토 + 시뮬 데이터 원본 (condition_mechanism_signature.csv) 재검증 (ss7186)**
 - **상태**: [ ] 미결정
 
+### 5. `intensity` (난이도)
+
+- **위치**: [data/conditions.json](data/conditions.json) — 각 condition block의 `intensity` 필드. 결과 화면 상단 우측 "난이도" 표시에 사용 ([components/screen_result.py](components/screen_result.py))
+- **현재 상태**: 활성 모듈 수 기반 임의 분류
+  - 쉬움: NENE (둘 다 수평, 0개 활성)
+  - 보통: ADNE / NEAD / AENE / NEAE / AINE / NEAI (한쪽만 비-NE, 1개 활성)
+  - 강함: ADAD / AEAE / AIAI (양쪽 모두 비-NE, 2개 활성)
+- **검토 필요 이유**: **난이도 임의로 설정함. 기준 필요.**
+  - 명시적 분류 기준 문서 없음 (`_schema_doc`, CLAUDE.md, HANDOFF.md, PROTOCOL_v2.md 모두에 기준 미명시)
+  - "활성 모듈 수"가 실제 운동 난이도와 일치하는지 임상 검증 안 됨
+  - 모듈별 강도 차이 (AD vs AE vs AI) 미반영 — 예: AIAI와 ADAD가 같은 "강함"이지만 실제 부담은 다를 수 있음
+  - 새 모듈 정의(adduction+inversion 등) 적용 후 난이도 재검증 필요
+- **결정 주체**: **임상 검토 (ss7186 / 정형외과 교수) + condition_mechanism_signature.csv 활성도 데이터 기반 재분류**
+- **상태**: [ ] 미결정
+
 ---
 
 ## 디자인/카피 결정 필요

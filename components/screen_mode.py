@@ -11,7 +11,7 @@ def render(mapping: dict):
     for col, key in zip(cols, ["symmetric", "asymmetric"]):
         spec = modes[key]
         with col:
-            label = f"{spec['emoji']}\n\n{spec['label']}\n\n{spec['sub_label']}"
+            label = f"{spec['emoji']}\n**{spec['label']}**\n\n{spec['sub_label']}"
             if st.button(label, key=f"mode_{key}", use_container_width=True):
                 st.session_state.top_mode = key
                 st.session_state.screen = "sym_goal" if key == "symmetric" else "asym_side"

@@ -83,7 +83,7 @@ def render():
     st.markdown(
         """
         <div class="welcome-wrap">
-          <div class="welcome-brand">KOREA UNIVERSITY GURO HOSPITAL · BIOMEDICAL ENGINEERING</div>
+          <div class="welcome-brand">고려대학교 구로병원 정형외과 강성현교수 | 고려대학교 의공학교실</div>
         </div>
         """,
         unsafe_allow_html=True,

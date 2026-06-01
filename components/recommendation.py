@@ -63,7 +63,7 @@ def check_contraindications(cond: dict, concern_keys: Iterable[str], mapping: di
     warnings = []
     cond_contras = cond.get("contraindications", [])
     for cc in cond_contras:
-        warnings.append(f"⚠️ 주의: {cc}")
+        warnings.append(cc)
     return warnings
 
 

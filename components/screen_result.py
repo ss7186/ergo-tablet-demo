@@ -1,75 +1,94 @@
+import base64
+from pathlib import Path
+
 import streamlit as st
 
 from components.recommendation import recommend, check_contraindications
 from utils.media import render_illustration, render_video
 
+_ASSETS = Path(__file__).resolve().parent.parent / "assets"
+
+
+def _img_data_url(rel_path: str) -> str:
+    """assets 상대경로 → data: URL. 없거나 실패하면 빈 문자열."""
+    if not rel_path:
+        return ""
+    p = _ASSETS / rel_path
+    if not p.exists():
+        return ""
+    ext = p.suffix[1:].lower()
+    mime = "jpeg" if ext == "jpg" else ext
+    return f"data:image/{mime};base64,{base64.b64encode(p.read_bytes()).decode()}"
+
 
 _INTENSITY_BADGE = {
-    "쉬움": ("🟢", "쉬움"),
+    "낮음": ("🟢", "낮음"),
     "보통": ("🟡", "보통"),
-    "강함": ("🔴", "강함"),
+    "높음": ("🔴", "높음"),
 }
 
 
 def _render_settings_card(cond: dict):
     sym = cond.get("symmetry", "symm")
-    sym_label = "양쪽 같은 세팅" if sym == "symm" else "왼쪽 / 오른쪽 다른 세팅"
-    right = cond.get("right_setting_label", "수평")
-    left = cond.get("left_setting_label", "수평")
+    sym_label = "양쪽 동일" if sym == "symm" else "왼쪽 / 오른쪽 다른 세팅"
+    media = cond.get("media", {}) or {}
+    img_url = _img_data_url(media.get("illustration", ""))
+    img_html = (
+        f'<img class="setting-card-img" src="{img_url}" alt="" '
+        f'style="display:block; width:auto; max-width:100%; max-height:420px; '
+        f'height:auto; object-fit:contain; margin:0.8rem auto 0; border-radius:14px;" />'
+    ) if img_url else ""
     st.markdown(
         f"""
         <div class="setting-card">
-          <h3>오늘의 추천 세팅 ✨</h3>
+          <h3>오늘의 추천 세팅</h3>
           <p class="setting-sub">{sym_label}</p>
-          <div class="lr-grid">
-            <div class="lr-cell">
-              <div class="lr-tag">👈 왼쪽 페달</div>
-              <div class="lr-value">{left}</div>
-            </div>
-            <div class="lr-cell">
-              <div class="lr-tag">👉 오른쪽 페달</div>
-              <div class="lr-value">{right}</div>
-            </div>
-          </div>
+          {img_html}
         </div>
         """,
         unsafe_allow_html=True,
     )
 
 
-def _render_effects(cond: dict):
+def _render_effects(cond: dict, cond_key: str):
     eff = cond["user_friendly_effects"]
     targets = cond.get("mechanism_target", [])
     rows = []
     for t in targets:
-        rows.append(f'<li class="eff-good">🎯 <b>{t}</b> 타겟</li>')
+        rows.append(f'<li><b>{t}</b> 타겟</li>')
     for m in eff.get("muscles_strengthened", []):
-        rows.append(f'<li class="eff-good">💪 <b>{m}</b> 강화</li>')
+        rows.append(f'<li><b>{m}</b> 강화</li>')
     for m in eff.get("load_decreased", []):
-        rows.append(f'<li class="eff-good">✅ <b>{m}</b> 부담 감소</li>')
+        rows.append(f'<li><b>{m}</b> 부담 감소</li>')
     for m in eff.get("load_increased", []):
-        rows.append(f'<li class="eff-warn">⚠️ <b>{m}</b> 증가 (참고)</li>')
+        rows.append(f'<li><b>{m}</b> 증가 (참고)</li>')
     note = eff.get("contralateral_note")
     if note:
-        rows.append(f'<li class="eff-info">🧠 {note}</li>')
+        rows.append(f'<li>{note}</li>')
+
+    muscle_img_url = _img_data_url(f"illustrations/muscle_{cond_key.lower()}.png")
+    muscle_img_html = (
+        f'<img class="effect-muscle-img" src="{muscle_img_url}" alt="" '
+        f'style="display:block; width:auto; max-width:100%; max-height:300px; '
+        f'height:auto; object-fit:contain; margin:1rem auto 0; border-radius:14px;" />'
+    ) if muscle_img_url else ""
 
     st.markdown(
-        f'<div class="effect-card"><h3>예상 효과</h3><ul class="effect-list">{"".join(rows)}</ul></div>',
+        f'<div class="effect-card">'
+        f'<h3>예상 효과</h3>'
+        f'<ul class="effect-list">{"".join(rows)}</ul>'
+        f'{muscle_img_html}'
+        f'</div>',
         unsafe_allow_html=True,
     )
 
 
 def _render_meta(cond: dict, source_label: str | None):
     icon, label = _INTENSITY_BADGE.get(cond["intensity"], ("🟡", cond["intensity"]))
-    dur = cond["duration_min"]
-    dur_label = f"{dur[0]}–{dur[1]}분" if isinstance(dur, list) and len(dur) == 2 else f"{dur}분"
-    src = f'<div class="meta-cell"><span class="meta-icon">📋</span><span class="meta-label">근거</span><span class="meta-val">{source_label}</span></div>' if source_label else ""
     st.markdown(
         f"""
         <div class="meta-row">
           <div class="meta-cell"><span class="meta-icon">{icon}</span><span class="meta-label">강도</span><span class="meta-val">{label}</span></div>
-          <div class="meta-cell"><span class="meta-icon">⏱</span><span class="meta-label">추천 시간</span><span class="meta-val">{dur_label}</span></div>
-          {src}
         </div>
         """,
         unsafe_allow_html=True,
@@ -102,28 +121,46 @@ def render(conditions: dict, mapping: dict):
 
     cond_name = cond.get("name_kr", cond_key)
     if br["source"] == "matrix_v2":
-        side = mapping["asymmetric_sides"][br["side"]]["label"]
-        symptom = mapping["asymmetric_symptoms"][br["symptom"]]["label"]
-        title = f"{side} · {symptom} → {cond_name}"
+        side_data = mapping["asymmetric_sides"][br["side"]]
+        symptom_data = mapping["asymmetric_symptoms"][br["symptom"]]
+        context = f"{side_data['emoji']} {side_data['label']} · {symptom_data['emoji']} {symptom_data['label']}"
         source_label = "임상 처방 매트릭스 v2"
     elif br["source"] == "score":
-        goal = mapping["symmetric_goals"][br["goal"]]["label"]
-        title = f"{goal} 강화 → {cond_name}"
+        goal_data = mapping["symmetric_goals"][br["goal"]]
+        context = f"{goal_data['emoji']} {goal_data['label']} 강화"
         source_label = "근활성도 기반"
     else:
-        title = f"추천 세팅 → {cond_name}"
+        context = "추천 세팅"
         source_label = None
-    st.markdown(f'<h1 class="screen-title">{title}</h1>', unsafe_allow_html=True)
+    diff_icon, diff_label = _INTENSITY_BADGE.get(cond["intensity"], ("🟡", cond["intensity"]))
+    st.markdown(
+        f'<div class="result-header">'
+        f'  <div class="result-title-block">'
+        f'    <p class="result-context">{context}</p>'
+        f'    <div class="result-condition">{cond_name}</div>'
+        f'  </div>'
+        f'  <div class="result-difficulty">'
+        f'    <span class="diff-icon">{diff_icon}</span>'
+        f'    <span class="diff-label">난이도</span>'
+        f'    <span class="diff-val">{diff_label}</span>'
+        f'  </div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
 
-    left, right = st.columns([2, 3])
+    # 1행: 두 카드 (좌/우 균등, container height로 동일 높이 강제)
+    left, right = st.columns(2, gap="small")
     media = cond.get("media", {}) or {}
+    CARD_HEIGHT = 720
     with left:
-        _render_settings_card(cond)
-        render_illustration(media.get("illustration"), width=320)
-        _render_meta(cond, source_label)
+        with st.container(height=CARD_HEIGHT, border=False):
+            _render_settings_card(cond)
     with right:
-        _render_effects(cond)
-        render_video(media.get("video"), media.get("video_description"))
+        with st.container(height=CARD_HEIGHT, border=False):
+            _render_effects(cond, cond_key)
+
+    # 2행: 컨디션 영상 (전체 폭) — caption 없음
+    render_video(media.get("video"))
 
     warnings = check_contraindications(cond, st.session_state.get("concerns", []), mapping)
     if warnings:
@@ -140,7 +177,7 @@ def render(conditions: dict, mapping: dict):
             st.session_state.feedback = "down"
             st.toast("의견 감사합니다", icon="🙏")
     with f3:
-        if st.button("다시 시작 ↻", key="restart", type="tertiary"):
+        if st.button("↻ 다시 시작", key="restart", type="tertiary"):
             for k in ("top_mode", "sym_goal", "asym_side", "asym_symptom", "concerns", "feedback"):
                 st.session_state.pop(k, None)
             st.session_state.screen = "mode"

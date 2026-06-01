@@ -39,7 +39,7 @@
         "Trunk": 0
       }
     },
-    "intensity": "쉬움",
+    "intensity": "낮음",
     "duration_min": [
       5,
       10
@@ -95,7 +95,7 @@
         "Trunk": 5
       }
     },
-    "intensity": "보통",
+    "intensity": "높음",
     "duration_min": [
       5,
       10
@@ -154,7 +154,7 @@
         "Trunk": 5
       }
     },
-    "intensity": "보통",
+    "intensity": "높음",
     "duration_min": [
       5,
       10
@@ -216,7 +216,7 @@
         "Trunk": 40
       }
     },
-    "intensity": "보통",
+    "intensity": "높음",
     "duration_min": [
       5,
       10
@@ -278,7 +278,7 @@
         "Trunk": 40
       }
     },
-    "intensity": "보통",
+    "intensity": "높음",
     "duration_min": [
       5,
       10
@@ -336,7 +336,7 @@
         "Trunk": 20
       }
     },
-    "intensity": "보통",
+    "intensity": "높음",
     "duration_min": [
       5,
       10
@@ -395,7 +395,7 @@
         "Trunk": 20
       }
     },
-    "intensity": "보통",
+    "intensity": "높음",
     "duration_min": [
       5,
       10
@@ -453,7 +453,7 @@
         "Trunk": 5
       }
     },
-    "intensity": "강함",
+    "intensity": "보통",
     "duration_min": [
       5,
       10
@@ -513,7 +513,7 @@
         "Trunk": 20
       }
     },
-    "intensity": "강함",
+    "intensity": "보통",
     "duration_min": [
       5,
       10
@@ -571,7 +571,7 @@
         "Trunk": 10
       }
     },
-    "intensity": "강함",
+    "intensity": "보통",
     "duration_min": [
       5,
       10

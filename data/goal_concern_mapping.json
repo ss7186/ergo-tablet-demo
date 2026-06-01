@@ -28,8 +28,8 @@
       "weights": { "Add_R": 1.0, "Add_L": 1.0 }
     },
     "고관절 회전": {
-      "emoji": "🌀",
-      "label": "고관절 회전 안정성",
+      "emoji": "🏃‍♂️",
+      "label": "햄스트링",
       "target_muscles": ["ER_R", "ER_L"],
       "weights": { "ER_R": 1.0, "ER_L": 1.0 }
     },

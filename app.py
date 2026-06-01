@@ -55,7 +55,7 @@ def main():
     st.markdown(
         """
         <div class="app-footer">
-          고려대학교 구로병원 정형외과 교수 / 고려대학교 의공학교실
+          KOREA UNIVERSITY GURO HOSPITAL · BIOMEDICAL ENGINEERING
         </div>
         """,
         unsafe_allow_html=True,
