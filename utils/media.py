@@ -39,7 +39,13 @@ def render_illustration(rel_path: Optional[str], caption: Optional[str] = None, 
 
 
 def render_video(rel_path: Optional[str], description: Optional[str] = None):
-    """영상 표시. 없으면 description만 보여줌."""
+    """영상 표시. 없으면 description만 보여줌.
+
+    st.video()로 렌더된 <video> 태그는 webOS(스탠바이미)에서 playsinline 속성
+    부재로 재생이 거부될 수 있음. utils.compat.inject_video_compat()을
+    app.py에서 한 번 호출하면 모든 <video>에 playsinline + preload + controls가
+    자동 부여됨.
+    """
     resolved = _resolve(rel_path)
     if resolved is None:
         if description:

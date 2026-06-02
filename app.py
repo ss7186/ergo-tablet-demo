@@ -8,6 +8,7 @@ from components import (
     screen_asym, screen_symptom, screen_concern, screen_result,
 )
 from utils.data_loader import load_conditions, load_mapping
+from utils.compat import inject_compat
 
 
 st.set_page_config(
@@ -30,6 +31,7 @@ def _init_state():
 
 def main():
     _inject_css()
+    inject_compat()
     _init_state()
 
     conditions = load_conditions()
