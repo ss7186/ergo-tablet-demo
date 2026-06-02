@@ -23,7 +23,9 @@
       "weights": {
         "Gmed_R": 1.0,
         "Gmed_L": 1.0
-      }
+      },
+      "_forced_recommendation": "AEAE",
+      "_clinical": "ABE / 와이드·토인 — 엉덩이 옆·뒤·위 강화 (mode2)"
     },
     "허벅지 안쪽": {
       "emoji": "🦵",
@@ -35,7 +37,9 @@
       "weights": {
         "Add_R": 1.0,
         "Add_L": 1.0
-      }
+      },
+      "_forced_recommendation": "ADAD",
+      "_clinical": "ADI / 내로우·롤인 — 허벅지 안쪽·종아리 강화 (mode4)"
     },
     "고관절 회전": {
       "emoji": "🏃‍♂️",
@@ -47,7 +51,9 @@
       "weights": {
         "ER_R": 1.0,
         "ER_L": 1.0
-      }
+      },
+      "_forced_recommendation": "AIAI",
+      "_clinical": "ABI / 와이드·토아웃 — 허벅지 뒤·종아리 바깥 강화 (mode3)"
     },
     "전체": {
       "emoji": "💪",
@@ -69,7 +75,9 @@
         "ER_R": 0.8,
         "ER_L": 0.8,
         "Trunk": 0.5
-      }
+      },
+      "_forced_recommendation": "AEAE",
+      "_clinical": "기본 통합 운동 — 가장 강한 엉덩이 외전근 자극 (mode2)"
     },
     "관절 휴식": {
       "emoji": "🧘",
