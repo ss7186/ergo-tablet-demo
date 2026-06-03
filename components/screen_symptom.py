@@ -1,8 +1,12 @@
 """비대칭 분기: 증상 카테고리 선택."""
 import streamlit as st
 
+from components.common import render_top_back
+
 
 def render(mapping: dict):
+    render_top_back("asym_side", "symptom_back")
+
     side = st.session_state.get("asym_side", "both")
     side_label = mapping["asymmetric_sides"].get(side, {}).get("label", "")
     st.markdown(
@@ -32,9 +36,3 @@ def render(mapping: dict):
                     unsafe_allow_html=True,
                 )
 
-    st.markdown("<br/>", unsafe_allow_html=True)
-    _, back, _ = st.columns([2, 1, 2])
-    with back:
-        if st.button("◀ 이전", key="symptom_back", type="tertiary"):
-            st.session_state.screen = "asym_side"
-            st.rerun()

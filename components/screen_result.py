@@ -3,6 +3,7 @@ from pathlib import Path
 
 import streamlit as st
 
+from components.common import render_top_back
 from components.recommendation import recommend, check_contraindications
 from utils.media import render_illustration, render_video
 
@@ -111,6 +112,10 @@ def render(conditions: dict, mapping: dict):
         st.session_state.screen = "mode"
         st.rerun()
         return
+
+    # 우측 상단 뒤로가기 — symmetric/asymmetric 분기 따라 직전 화면으로
+    back_target = "sym_goal" if top == "symmetric" else "asym_symptom"
+    render_top_back(back_target, "result_back")
 
     cond_key, cond, br = recommend(
         top, conditions, mapping,

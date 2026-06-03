@@ -1,8 +1,12 @@
 """비대칭 분기: 어느 쪽이 불편한지 입력."""
 import streamlit as st
 
+from components.common import render_top_back
+
 
 def render(mapping: dict):
+    render_top_back("mode", "asym_side_back")
+
     st.markdown('<h1 class="screen-title">어느 쪽이 더 불편하세요?</h1>', unsafe_allow_html=True)
     st.markdown(
         '<p class="screen-sub">정확하지 않아도 괜찮아요. 잘 모르겠으면 "양쪽 다"</p>',
@@ -20,10 +24,3 @@ def render(mapping: dict):
                 st.session_state.asym_side = key
                 st.session_state.screen = "asym_symptom"
                 st.rerun()
-
-    st.markdown("<br/>", unsafe_allow_html=True)
-    _, back, _ = st.columns([2, 1, 2])
-    with back:
-        if st.button("◀ 이전", key="asym_side_back", type="tertiary"):
-            st.session_state.screen = "mode"
-            st.rerun()

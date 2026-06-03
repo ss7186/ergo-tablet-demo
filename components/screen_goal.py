@@ -1,8 +1,12 @@
 """대칭 운동 분기: 근육 그룹 선택."""
 import streamlit as st
 
+from components.common import render_top_back
+
 
 def render(mapping: dict):
+    render_top_back("mode", "goal_back")
+
     st.markdown('<h1 class="screen-title">어디를 집중적으로 운동할까요?</h1>', unsafe_allow_html=True)
     st.markdown('<p class="screen-sub">양쪽 동일 자극으로 운동합니다</p>', unsafe_allow_html=True)
 
@@ -17,10 +21,3 @@ def render(mapping: dict):
                 st.session_state.sym_goal = key
                 st.session_state.screen = "result"
                 st.rerun()
-
-    st.markdown("<br/>", unsafe_allow_html=True)
-    _, back, _ = st.columns([2, 1, 2])
-    with back:
-        if st.button("◀ 이전", key="goal_back", type="tertiary"):
-            st.session_state.screen = "mode"
-            st.rerun()

@@ -5,7 +5,7 @@ import streamlit as st
 
 from components import (
     screen_welcome, screen_mode, screen_goal,
-    screen_asym, screen_symptom, screen_concern, screen_result,
+    screen_asym, screen_symptom, screen_result,
 )
 from utils.data_loader import load_conditions, load_mapping
 from utils.compat import inject_compat
@@ -44,7 +44,6 @@ def main():
         "sym_goal": lambda: screen_goal.render(mapping),
         "asym_side": lambda: screen_asym.render(mapping),
         "asym_symptom": lambda: screen_symptom.render(mapping),
-        "concern": lambda: screen_concern.render(mapping),
         "result": lambda: screen_result.render(conditions, mapping),
     }
     fn = routes.get(screen)
