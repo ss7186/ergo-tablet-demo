@@ -130,11 +130,7 @@ button[kind="primary"],
   margin-bottom: 2rem;
 }
 
-/* === Goal cards (Screen 2) === */
-.stButton > button[data-testid*="goal_"] {
-  min-height: 200px;
-  font-size: 1.5rem;
-}
+/* === Goal cards baseline (Screen 2) — 자세한 height/font 는 §562 이후 rule 에서 처리 === */
 
 /* === Concern checkboxes === */
 .stCheckbox {
@@ -559,17 +555,31 @@ p.result-context {
   flex: 1;
 }
 
-/* === Mode / Goal / Side / Symptom 카드 폰트 강조 === */
+/* === Mode / Goal / Side / Symptom 카드 — 고정 높이 + 자동 폰트 축소 === */
+/* 공통: 텍스트 길이가 달라도 카드 박스 크기가 변하지 않도록 height 고정,
+   overflow hidden + font-size clamp() 로 텍스트가 길어지면 자동 축소.
+   line-clamp 으로 줄 수도 제한. */
 .stButton > button[data-testid*="mode_"],
 .stButton > button[data-testid*="goal_"],
 .stButton > button[data-testid*="side_"],
 .stButton > button[data-testid*="sym_"] {
-  font-size: 1.7rem !important;
   font-weight: 700 !important;
-  min-height: 140px;
-  line-height: 1.3;
+  line-height: 1.3 !important;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
   transition: transform 0.12s, box-shadow 0.15s, border-color 0.15s;
+  overflow: hidden !important;
+  padding: 0.8rem 0.6rem !important;
+  text-overflow: ellipsis;
+  /* 버튼 내부 markdown wrapper도 overflow 적용 */
+}
+.stButton > button[data-testid*="mode_"] > div,
+.stButton > button[data-testid*="goal_"] > div,
+.stButton > button[data-testid*="side_"] > div,
+.stButton > button[data-testid*="sym_"] > div {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 .stButton > button[data-testid*="mode_"]:hover,
 .stButton > button[data-testid*="goal_"]:hover,
@@ -578,20 +588,73 @@ p.result-context {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.16);
 }
-.card-sub {
-  text-align: center;
-  font-size: 1rem;
-  color: var(--muted);
-  margin: -0.3rem 0 0.9rem;
-  line-height: 1.45;
-  font-weight: 500;
+
+/* Mode (2 cards / row) — 큰 카드, 긴 multi-line text */
+.stButton > button[data-testid*="mode_"] {
+  height: 240px !important;
+  min-height: 240px !important;
+  max-height: 240px !important;
+  font-size: clamp(1.1rem, 1.8vw, 1.7rem) !important;
 }
 
-/* === Dialog 더 넓게 (사용 순서 그림이 잘 보이도록) === */
+/* Goal (5 cards / row) — 글자 4 vs 7자 차이 흡수 */
+.stButton > button[data-testid*="goal_"] {
+  height: 200px !important;
+  min-height: 200px !important;
+  max-height: 200px !important;
+  font-size: clamp(1.0rem, 1.4vw, 1.5rem) !important;
+}
+
+/* Side (3 cards / row) — emoji + label */
+.stButton > button[data-testid*="side_"] {
+  height: 180px !important;
+  min-height: 180px !important;
+  max-height: 180px !important;
+  font-size: clamp(1.1rem, 1.7vw, 1.6rem) !important;
+}
+
+/* Symptom (4 cards / row, narrow) */
+.stButton > button[data-testid*="sym_"] {
+  height: 170px !important;
+  min-height: 170px !important;
+  max-height: 170px !important;
+  font-size: clamp(0.9rem, 1.3vw, 1.3rem) !important;
+}
+
+/* sub_label (.card-sub) — 카드 버튼 아래 회색 작은 설명. 줄 수 제한 + 고정 높이. */
+.card-sub {
+  text-align: center;
+  font-size: clamp(0.85rem, 0.95vw, 1.05rem);
+  color: var(--muted);
+  margin: 0.3rem 0 0.9rem;
+  line-height: 1.4;
+  font-weight: 500;
+  /* 최대 2줄, 넘으면 ellipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.8em;
+  max-height: 2.8em;
+}
+
+/* === Dialog 더 넓게 (사용 순서 그림이 잘 보이도록) + 화면 중앙 정렬 === */
 div[data-testid="stDialog"] > div,
 div[role="dialog"] {
   max-width: 1400px !important;
   width: 95vw !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  right: auto !important;
+}
+/* dialog wrapper (Streamlit modal overlay) 가 flex centering 사용하도록 */
+div[data-testid="stDialog"],
+[data-baseweb="modal"] [data-baseweb="modal-body"] {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
 }
 
 /* === Dialog 내부 section 헤더 styling === */
@@ -807,7 +870,19 @@ button[data-baseweb="tab"] {
   .welcome-title { font-size: 2.2rem !important; }
   .screen-title { font-size: 1.8rem !important; }
   .stButton > button { min-height: 70px; font-size: 1.15rem; }
-  .stButton > button[data-testid*="goal_"] { min-height: 140px; }
+  /* 좁은 화면에서도 카드 높이 고정 유지 — 작은 값으로 */
+  .stButton > button[data-testid*="mode_"] {
+    height: 180px !important; min-height: 180px !important; max-height: 180px !important;
+  }
+  .stButton > button[data-testid*="goal_"] {
+    height: 150px !important; min-height: 150px !important; max-height: 150px !important;
+  }
+  .stButton > button[data-testid*="side_"] {
+    height: 140px !important; min-height: 140px !important; max-height: 140px !important;
+  }
+  .stButton > button[data-testid*="sym_"] {
+    height: 130px !important; min-height: 130px !important; max-height: 130px !important;
+  }
 }
 
 /* === 스탠바이미/대형 디스플레이 === */

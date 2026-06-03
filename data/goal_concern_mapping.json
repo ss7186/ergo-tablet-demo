@@ -3,12 +3,12 @@
   "top_modes": {
     "symmetric": {
       "emoji": "⚖️",
-      "label": "좌우 균형 운동",
+      "label": "균형 운동",
       "sub_label": "양쪽 동일 자극 · 일반 근력 운동"
     },
     "asymmetric": {
       "emoji": "🔄",
-      "label": "비대칭 조정 운동",
+      "label": "비대칭 교정 운동",
       "sub_label": "한쪽 특화 · 통증/불편 부위 맞춤"
     }
   },
@@ -76,8 +76,8 @@
         "ER_L": 0.8,
         "Trunk": 0.5
       },
-      "_forced_recommendation": "AEAE",
-      "_clinical": "기본 통합 운동 — 가장 강한 엉덩이 외전근 자극 (mode2)"
+      "_forced_recommendation": "NENE",
+      "_clinical": "기본 통합 운동 — 표준 사이클링으로 하지 전체 균형 활성화 (mode1, NENE)"
     },
     "관절 휴식": {
       "emoji": "🧘",
@@ -92,15 +92,18 @@
   "asymmetric_sides": {
     "right": {
       "emoji": "👉",
-      "label": "오른쪽이 불편"
+      "label": "오른쪽이 불편",
+      "sub_label": "오른쪽 무릎·고관절·골반·발에 통증이나 약함"
     },
     "left": {
       "emoji": "👈",
-      "label": "왼쪽이 불편"
+      "label": "왼쪽이 불편",
+      "sub_label": "왼쪽 무릎·고관절·골반·발에 통증이나 약함"
     },
     "both": {
       "emoji": "↔️",
-      "label": "양쪽 다"
+      "label": "양쪽 다",
+      "sub_label": "어느 쪽이라 말하기 어려움 / 양쪽 모두"
     }
   },
   "asymmetric_symptoms": {

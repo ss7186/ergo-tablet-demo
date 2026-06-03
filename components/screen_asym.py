@@ -24,3 +24,6 @@ def render(mapping: dict):
                 st.session_state.asym_side = key
                 st.session_state.screen = "asym_symptom"
                 st.rerun()
+            sub = spec.get("sub_label")
+            if sub:
+                st.markdown(f'<p class="card-sub">{sub}</p>', unsafe_allow_html=True)
