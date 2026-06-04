@@ -67,7 +67,7 @@ _POSE_HTML = """
          border-radius: 8px; margin: 10px; font-weight: 500;
          line-height: 1.5; font-size: 14px; }
   .err a { color: #b91c1c; text-decoration: underline; font-weight: 700; }
-  .controls { display: flex; gap: 8px; padding: 8px 12px; justify-content: center; flex-wrap: wrap; }
+  .controls { display: flex; gap: 8px; padding: 8px 12px; justify-content: center; flex-wrap: wrap; align-items: center; }
   button.btn {
     background: #2563eb; color: white; border: none; padding: 10px 18px;
     border-radius: 10px; font-size: 14px; cursor: pointer; font-weight: 600;
@@ -75,6 +75,13 @@ _POSE_HTML = """
   button.btn.secondary { background: #475569; }
   button.btn.success { background: #16a34a; }
   button.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .model-select { display: flex; align-items: center; gap: 6px; color: #cbd5e1; font-size: 13px; }
+  .model-select select { background: #1e293b; color: #e2e8f0; border: 1px solid #475569;
+    border-radius: 6px; padding: 6px 10px; font-size: 13px; }
+  .qbar { display: inline-block; width: 60px; height: 8px; background: #334155;
+    border-radius: 4px; vertical-align: middle; overflow: hidden; margin-left: 4px; }
+  .qbar > div { height: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
+    transition: width 0.2s; }
   .cues { padding: 8px 12px; text-align: center; min-height: 40px;
           font-size: 15px; font-weight: 600; color: #f59e0b; }
   .cues.alert { color: #ef4444; }
@@ -133,10 +140,22 @@ _POSE_HTML = """
   <div class="status">
     <span>상태: <b id="statusText">초기화 중...</b></span>
     <span>FPS: <b id="fpsText">—</b></span>
-    <span>샘플 수: <b id="sampleText">0</b></span>
+    <span>샘플: <b id="sampleText">0</b></span>
+    <span>추적 품질:
+      <b id="qualityText">—</b>
+      <span class="qbar"><div id="qualityBar" style="width:0%"></div></span>
+    </span>
   </div>
 
   <div class="controls">
+    <div class="model-select">
+      모델
+      <select id="modelSelect">
+        <option value="lite">Lite (빠름, 30fps)</option>
+        <option value="full">Full (정확, 15-25fps)</option>
+        <option value="heavy">Heavy (최정확, 10-15fps)</option>
+      </select>
+    </div>
     <button id="btnStart" class="btn" disabled>▶ 시작</button>
     <button id="btnStop" class="btn secondary" disabled>■ 정지 · 분석</button>
   </div>
@@ -207,6 +226,9 @@ const btnExportCsv = document.getElementById('btnExportCsv');
 const cuesBox = document.getElementById('cuesBox');
 const liveView = document.getElementById('liveView');
 const summaryView = document.getElementById('summaryView');
+const modelSelect = document.getElementById('modelSelect');
+const qualityText = document.getElementById('qualityText');
+const qualityBar = document.getElementById('qualityBar');
 
 const TH = {
   pelvic_deg: 3.0,
@@ -216,16 +238,54 @@ const TH = {
   shoulder_deg: 4.0,
 };
 
-// 패턴 우선순위 (severity 가 높은 metric 부터 → next condition 결정)
-// 임계값 절대값 대비 ratio 가 가장 큰 metric 선정
-const PATTERN_PRIORITY = ['pelvic', 'trunk', 'knee', 'foot'];
+// ── Pedaling-aware tuning ──
+// EMA tau ≈ 0.2s (페달링 1-2Hz cycle 의 1/5 ~ 1/10) — cycle 자체의 list/valgus 신호는 유지하면서
+// frame-to-frame jitter 만 제거. alpha = 1 - exp(-1/(fps*tau)) — 매 frame 동적 갱신.
+const SMOOTH_TAU_SEC = 0.2;
+const VISIBILITY_MIN = 0.5;     // 0~1 — 가려진 joint 는 metric 계산에서 skip
+const UI_THROTTLE_MS = 100;     // metric card / cue 는 10Hz 만 업데이트 (canvas 는 매 frame)
+const QUALITY_WINDOW = 30;      // 최근 30 frame visibility 평균으로 추적 품질% 계산
+
+const MODEL_URLS = {
+  lite:  "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",
+  full:  "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task",
+  heavy: "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/1/pose_landmarker_heavy.task",
+};
 
 let poseLandmarker = null;
+let currentModelKey = 'lite';
+let vision = null;
 let stream = null;
 let running = false;
 let lastVideoTime = -1;
 let drawingUtils = null;
 let fpsBuf = [];
+
+// EMA smoother state
+const smoothed = { pelvic: 0, trunk: 0, kneeR: 0, kneeL: 0, footR: 0, footL: 0, shoulder: 0 };
+let smoothedInit = false;
+let currentFps = 30;
+
+function smoothEMA(name, val) {
+  if (!smoothedInit) { smoothed[name] = val; return val; }
+  const alpha = 1 - Math.exp(-1 / (Math.max(currentFps, 5) * SMOOTH_TAU_SEC));
+  smoothed[name] = alpha * val + (1 - alpha) * smoothed[name];
+  return smoothed[name];
+}
+
+// Tracking quality (visibility EMA)
+let qualityBuf = [];
+function pushQuality(q) {
+  qualityBuf.push(q);
+  if (qualityBuf.length > QUALITY_WINDOW) qualityBuf.shift();
+}
+function avgQuality() {
+  if (qualityBuf.length === 0) return 0;
+  return qualityBuf.reduce((a, b) => a + b, 0) / qualityBuf.length;
+}
+
+// UI throttle
+let lastUiTs = 0;
 
 // ── Session recording buffer ──
 let sessionBuf = [];   // [{t, pelvic, trunk, kneeR, kneeL, footR, footL, shoulder}, ...]
@@ -259,23 +319,32 @@ function detectIframeBlock() {
 
 async function initPose() {
   if (detectIframeBlock()) { return; }
-  setStatus('MediaPipe 모델 로드 중...');
+  setStatus('MediaPipe 런타임 로드 중...');
   try {
-    const vision = await FilesetResolver.forVisionTasks(
+    vision = await FilesetResolver.forVisionTasks(
       "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
-    poseLandmarker = await PoseLandmarker.createFromOptions(vision, {
-      baseOptions: {
-        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",
-        delegate: "GPU"
-      },
-      runningMode: "VIDEO",
-      numPoses: 1
-    });
+    await loadModel(currentModelKey);
     setStatus('모델 준비 완료 · 시작 버튼을 눌러주세요');
     btnStart.disabled = false;
   } catch (e) {
     showErr('MediaPipe 모델 로드 실패: ' + e.message);
   }
+}
+
+async function loadModel(key) {
+  if (!vision) return;
+  setStatus('모델 (' + key + ') 로드 중...');
+  if (poseLandmarker) { try { poseLandmarker.close(); } catch (e) {} }
+  poseLandmarker = await PoseLandmarker.createFromOptions(vision, {
+    baseOptions: { modelAssetPath: MODEL_URLS[key], delegate: "GPU" },
+    runningMode: "VIDEO",
+    numPoses: 1,
+    minPoseDetectionConfidence: 0.5,
+    minPosePresenceConfidence: 0.5,
+    minTrackingConfidence: 0.5,
+  });
+  currentModelKey = key;
+  setStatus('모델 (' + key + ') 준비 완료');
 }
 
 async function startCamera() {
@@ -294,10 +363,18 @@ async function startCamera() {
     sessionBuf = [];
     sessionStartTs = performance.now();
     sampleText.textContent = '0';
+    smoothedInit = false;
+    qualityBuf = [];
+    fpsBuf = [];
     btnStart.disabled = true;
     btnStop.disabled = false;
     setStatus('실행 중 · 세션 기록 중');
-    requestAnimationFrame(loop);
+    // requestVideoFrameCallback 사용 가능하면 video frame timing 에 동기화
+    if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
+      video.requestVideoFrameCallback(loopVFC);
+    } else {
+      requestAnimationFrame(loop);
+    }
   } catch (e) {
     showErr('카메라 접근 실패: ' + e.message +
             '<br/>· 브라우저 카메라 권한이 차단되었는지 확인 (주소창 자물쇠 → 카메라 허용)' +
@@ -327,6 +404,12 @@ function stopCamera() {
 function deg(rad) { return rad * 180 / Math.PI; }
 function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
 
+// Pose Landmarker (Tasks Vision) — `visibility` may sit on `worldLandmarks` separately;
+// here we treat `visibility ?? presence ?? 1` defensively for tasks-vision schema.
+function vis(p) {
+  return (p && (p.visibility ?? p.presence ?? 1)) || 0;
+}
+
 function calcMetrics(lm) {
   const Lsh = lm[11], Rsh = lm[12];
   const Lhip = lm[23], Rhip = lm[24];
@@ -335,29 +418,73 @@ function calcMetrics(lm) {
   const Lheel = lm[29], Rheel = lm[30];
   const Lfoot = lm[31], Rfoot = lm[32];
 
-  const pelvic_deg = deg(Math.atan2(Rhip.y - Lhip.y, Rhip.x - Lhip.x));
-  const shMidX = (Lsh.x + Rsh.x) / 2, shMidY = (Lsh.y + Rsh.y) / 2;
-  const hipMidX = (Lhip.x + Rhip.x) / 2, hipMidY = (Lhip.y + Rhip.y) / 2;
-  const trunk_deg = deg(Math.atan2(shMidX - hipMidX, hipMidY - shMidY));
+  // 추적 품질 (lower-body 8개 key landmark visibility 평균)
+  const visAvg = (vis(Lhip) + vis(Rhip) + vis(Lkn) + vis(Rkn) +
+                  vis(Lank) + vis(Rank) + vis(Lheel) + vis(Rheel)) / 8;
+  pushQuality(visAvg);
+
+  // Per-metric reliability (해당 metric 에 쓰이는 landmark 들의 min visibility)
+  const relPelvic = Math.min(vis(Lhip), vis(Rhip));
+  const relTrunk  = Math.min(vis(Lsh), vis(Rsh), vis(Lhip), vis(Rhip));
+  const relKneeR  = Math.min(vis(Rhip), vis(Rkn), vis(Rank));
+  const relKneeL  = Math.min(vis(Lhip), vis(Lkn), vis(Lank));
+  const relFootR  = Math.min(vis(Rheel), vis(Rfoot));
+  const relFootL  = Math.min(vis(Lheel), vis(Lfoot));
+
+  // 신뢰도 부족 metric 은 NaN — UI/buffer 에서 skip 처리
+  const pelvic_deg = relPelvic >= VISIBILITY_MIN
+    ? deg(Math.atan2(Rhip.y - Lhip.y, Rhip.x - Lhip.x)) : NaN;
+
+  let trunk_deg = NaN;
+  if (relTrunk >= VISIBILITY_MIN) {
+    const shMidX = (Lsh.x + Rsh.x) / 2, shMidY = (Lsh.y + Rsh.y) / 2;
+    const hipMidX = (Lhip.x + Rhip.x) / 2, hipMidY = (Lhip.y + Rhip.y) / 2;
+    trunk_deg = deg(Math.atan2(shMidX - hipMidX, hipMidY - shMidY));
+  }
 
   const centerX = (Lhip.x + Rhip.x) / 2;
-  const knee_R_valgus = (centerX - Rkn.x);
-  const knee_L_valgus = (Lkn.x - centerX);
-  const legR_len = Math.abs(Rank.y - Rhip.y) || 0.4;
-  const legL_len = Math.abs(Lank.y - Lhip.y) || 0.4;
-  const knee_R_norm = knee_R_valgus / legR_len;
-  const knee_L_norm = knee_L_valgus / legL_len;
+  let knee_R_norm = NaN, knee_L_norm = NaN;
+  if (relKneeR >= VISIBILITY_MIN) {
+    const legR_len = Math.abs(Rank.y - Rhip.y) || 0.4;
+    knee_R_norm = (centerX - Rkn.x) / legR_len;
+  }
+  if (relKneeL >= VISIBILITY_MIN) {
+    const legL_len = Math.abs(Lank.y - Lhip.y) || 0.4;
+    knee_L_norm = (Lkn.x - centerX) / legL_len;
+  }
 
-  const foot_R_offset = Rheel.x - Rfoot.x;
-  const foot_L_offset = Lfoot.x - Lheel.x;
-  const footR_len = dist(Rheel, Rfoot) || 0.1;
-  const footL_len = dist(Lheel, Lfoot) || 0.1;
-  const foot_R_deg = deg(Math.asin(Math.max(-1, Math.min(1, foot_R_offset / footR_len))));
-  const foot_L_deg = deg(Math.asin(Math.max(-1, Math.min(1, foot_L_offset / footL_len))));
+  let foot_R_deg = NaN, foot_L_deg = NaN;
+  if (relFootR >= VISIBILITY_MIN) {
+    const footR_len = dist(Rheel, Rfoot) || 0.1;
+    foot_R_deg = deg(Math.asin(Math.max(-1, Math.min(1, (Rheel.x - Rfoot.x) / footR_len))));
+  }
+  if (relFootL >= VISIBILITY_MIN) {
+    const footL_len = dist(Lheel, Lfoot) || 0.1;
+    foot_L_deg = deg(Math.asin(Math.max(-1, Math.min(1, (Lfoot.x - Lheel.x) / footL_len))));
+  }
 
-  const shoulder_deg = deg(Math.atan2(Rsh.y - Lsh.y, Rsh.x - Lsh.x));
+  const shoulder_deg = (vis(Lsh) >= VISIBILITY_MIN && vis(Rsh) >= VISIBILITY_MIN)
+    ? deg(Math.atan2(Rsh.y - Lsh.y, Rsh.x - Lsh.x)) : NaN;
 
-  return { pelvic_deg, trunk_deg, knee_R_norm, knee_L_norm, foot_R_deg, foot_L_deg, shoulder_deg };
+  // EMA smoothing — NaN frame 은 직전 smoothed 값 유지
+  const sm = {
+    pelvic_deg:  isNaN(pelvic_deg) ? smoothed.pelvic  : smoothEMA('pelvic',  pelvic_deg),
+    trunk_deg:   isNaN(trunk_deg)  ? smoothed.trunk   : smoothEMA('trunk',   trunk_deg),
+    knee_R_norm: isNaN(knee_R_norm)? smoothed.kneeR   : smoothEMA('kneeR',   knee_R_norm),
+    knee_L_norm: isNaN(knee_L_norm)? smoothed.kneeL   : smoothEMA('kneeL',   knee_L_norm),
+    foot_R_deg:  isNaN(foot_R_deg) ? smoothed.footR   : smoothEMA('footR',   foot_R_deg),
+    foot_L_deg:  isNaN(foot_L_deg) ? smoothed.footL   : smoothEMA('footL',   foot_L_deg),
+    shoulder_deg:isNaN(shoulder_deg)? smoothed.shoulder: smoothEMA('shoulder', shoulder_deg),
+  };
+  if (!smoothedInit) smoothedInit = true;
+
+  return {
+    smoothed: sm,
+    raw: { pelvic_deg, trunk_deg, knee_R_norm, knee_L_norm, foot_R_deg, foot_L_deg, shoulder_deg },
+    reliability: { pelvic: relPelvic, trunk: relTrunk, kneeR: relKneeR, kneeL: relKneeL,
+                   footR: relFootR, footL: relFootL },
+    quality: visAvg,
+  };
 }
 
 function classify(value, threshold) {
@@ -433,42 +560,74 @@ function drawProblemMarkers(lm, m) {
   }
 }
 
+async function processFrame() {
+  const ts = performance.now();
+  const result = await poseLandmarker.detectForVideo(video, ts);
+
+  ctx.save();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.translate(canvas.width, 0); ctx.scale(-1, 1);
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  if (result.landmarks && result.landmarks.length > 0) {
+    const lm = result.landmarks[0];
+    drawingUtils.drawConnectors(lm, PoseLandmarker.POSE_CONNECTIONS, { color: '#FFFFFF', lineWidth: 3 });
+    drawingUtils.drawLandmarks(lm, { color: '#22c55e', radius: 4, lineWidth: 1 });
+    const mres = calcMetrics(lm);
+    const m = mres.smoothed;     // for display + cue + drawProblemMarkers
+    drawProblemMarkers(lm, m);
+
+    // Session buffer — RAW value 저장 (smoothing 은 display 만, 분석엔 raw)
+    // NaN metric 은 직전 smoothed 값을 폴백 (NaN propagation 방지)
+    const r = mres.raw;
+    sessionBuf.push({
+      t: (ts - sessionStartTs) / 1000,
+      pelvic: isNaN(r.pelvic_deg) ? m.pelvic_deg : r.pelvic_deg,
+      trunk:  isNaN(r.trunk_deg)  ? m.trunk_deg  : r.trunk_deg,
+      kneeR:  (isNaN(r.knee_R_norm) ? m.knee_R_norm : r.knee_R_norm) * 100,
+      kneeL:  (isNaN(r.knee_L_norm) ? m.knee_L_norm : r.knee_L_norm) * 100,
+      footR:  isNaN(r.foot_R_deg) ? m.foot_R_deg : r.foot_R_deg,
+      footL:  isNaN(r.foot_L_deg) ? m.foot_L_deg : r.foot_L_deg,
+      shoulder: isNaN(r.shoulder_deg) ? m.shoulder_deg : r.shoulder_deg,
+      quality: mres.quality,
+    });
+
+    // UI throttle: cards/cue/sample/quality/fps = 10Hz (canvas overlay 는 매 frame)
+    if (ts - lastUiTs > UI_THROTTLE_MS) {
+      lastUiTs = ts;
+      updateUI(m);
+      const q = avgQuality();
+      qualityText.textContent = (q * 100).toFixed(0) + '%';
+      qualityBar.style.width = (q * 100).toFixed(0) + '%';
+      sampleText.textContent = String(sessionBuf.length);
+      if (currentFps > 0) fpsText.textContent = currentFps.toFixed(1);
+    }
+  }
+  ctx.restore();
+
+  // FPS (every frame, but only displayed via throttle above)
+  const now = performance.now();
+  fpsBuf.push(now);
+  while (fpsBuf.length > 20) fpsBuf.shift();
+  if (fpsBuf.length > 2) {
+    currentFps = 1000 * (fpsBuf.length - 1) / (fpsBuf[fpsBuf.length - 1] - fpsBuf[0]);
+  }
+}
+
+// requestVideoFrameCallback path — 비디오에 새 프레임 도착할 때만 호출
+function loopVFC() {
+  if (!running || !poseLandmarker) return;
+  processFrame().then(() => {
+    if (running) video.requestVideoFrameCallback(loopVFC);
+  });
+}
+
+// 폴백: rAF + currentTime 비교
 async function loop() {
   if (!running || !poseLandmarker) return;
   if (video.currentTime !== lastVideoTime) {
     lastVideoTime = video.currentTime;
-    const ts = performance.now();
-    const result = await poseLandmarker.detectForVideo(video, ts);
-    ctx.save();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.translate(canvas.width, 0); ctx.scale(-1, 1);
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    if (result.landmarks && result.landmarks.length > 0) {
-      const lm = result.landmarks[0];
-      drawingUtils.drawConnectors(lm, PoseLandmarker.POSE_CONNECTIONS, { color: '#FFFFFF', lineWidth: 3 });
-      drawingUtils.drawLandmarks(lm, { color: '#22c55e', radius: 4, lineWidth: 1 });
-      const m = calcMetrics(lm);
-      drawProblemMarkers(lm, m);
-      updateUI(m);
-      // Buffer push
-      sessionBuf.push({
-        t: (ts - sessionStartTs) / 1000,
-        pelvic: m.pelvic_deg, trunk: m.trunk_deg,
-        kneeR: m.knee_R_norm * 100, kneeL: m.knee_L_norm * 100,
-        footR: m.foot_R_deg, footL: m.foot_L_deg,
-        shoulder: m.shoulder_deg,
-      });
-      sampleText.textContent = String(sessionBuf.length);
-    }
-    ctx.restore();
-
-    const now = performance.now();
-    fpsBuf.push(now);
-    while (fpsBuf.length > 20) fpsBuf.shift();
-    if (fpsBuf.length > 2) {
-      const fps = 1000 * (fpsBuf.length - 1) / (fpsBuf[fpsBuf.length - 1] - fpsBuf[0]);
-      fpsText.textContent = fps.toFixed(1);
-    }
+    await processFrame();
   }
   requestAnimationFrame(loop);
 }
@@ -618,9 +777,9 @@ function backToLive() {
 
 function exportCsv() {
   if (sessionBuf.length === 0) return;
-  const header = 'time_s,pelvic_deg,trunk_deg,knee_R_pct,knee_L_pct,foot_R_deg,foot_L_deg,shoulder_deg\\n';
+  const header = 'time_s,pelvic_deg,trunk_deg,knee_R_pct,knee_L_pct,foot_R_deg,foot_L_deg,shoulder_deg,quality\\n';
   const rows = sessionBuf.map(s =>
-    [s.t, s.pelvic, s.trunk, s.kneeR, s.kneeL, s.footR, s.footL, s.shoulder]
+    [s.t, s.pelvic, s.trunk, s.kneeR, s.kneeL, s.footR, s.footL, s.shoulder, s.quality ?? 1]
       .map(v => v.toFixed(3)).join(',')
   );
   const blob = new Blob([header + rows.join('\\n')], { type: 'text/csv' });
@@ -636,6 +795,16 @@ btnStart.addEventListener('click', startCamera);
 btnStop.addEventListener('click', stopCamera);
 btnNewSession.addEventListener('click', backToLive);
 btnExportCsv.addEventListener('click', exportCsv);
+modelSelect.addEventListener('change', async (e) => {
+  if (running) {
+    showErr('실행 중에는 모델 변경 불가 — 정지 후 변경하세요.', true);
+    modelSelect.value = currentModelKey;
+    return;
+  }
+  btnStart.disabled = true;
+  await loadModel(e.target.value);
+  btnStart.disabled = false;
+});
 window.addEventListener('beforeunload', () => { if (running) stopCamera(); });
 
 initPose();
