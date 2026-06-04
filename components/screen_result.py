@@ -171,6 +171,14 @@ def render(conditions: dict, mapping: dict):
     if warnings:
         _render_safety(warnings)
 
+    # 자세 체크 진입 — 실시간 skeletal tracking (Phase 1: overlay only)
+    st.markdown("<br/>", unsafe_allow_html=True)
+    _, cam_col, _ = st.columns([1, 2, 1])
+    with cam_col:
+        if st.button("📷 실시간 자세 체크", key="goto_camera", use_container_width=True):
+            st.session_state.screen = "camera"
+            st.rerun()
+
     st.markdown("<br/>", unsafe_allow_html=True)
     f1, f2, f3, f4 = st.columns(4)
     with f1:

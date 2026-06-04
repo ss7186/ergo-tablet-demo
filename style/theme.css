@@ -461,6 +461,22 @@ p.result-context {
   letter-spacing: 0.02em;
 }
 
+/* === 자세 체크 카메라 screen === */
+/* "📷 실시간 자세 체크" 진입 버튼을 primary 강조 */
+.stButton > button[data-testid*="goto_camera"] {
+  background: var(--primary) !important;
+  color: white !important;
+  border-color: var(--primary) !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  min-height: 60px !important;
+  height: 60px !important;
+}
+.stButton > button[data-testid*="goto_camera"]:hover {
+  background: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+
 /* === Top-right back button (모든 화면 공통) === */
 /* render_top_back() 가 우측 narrow column에 tertiary 버튼을 렌더.
    key 가 "_back" 으로 끝나는 모든 버튼이 대상. block-container top padding 보정으로
