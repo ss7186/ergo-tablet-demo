@@ -639,15 +639,16 @@ p.result-context {
 }
 
 /* === Dialog 더 넓게 (사용 순서 그림이 잘 보이도록) + 화면 중앙 정렬 === */
+/* 주의: flex 가운데 정렬과 transform: translateX(-50%) 같이 쓰면 자식이
+   본인 너비의 -50%만큼 추가로 밀려나면서 화면 왼쪽으로 잘림. flex만 사용. */
 div[data-testid="stDialog"] > div,
 div[role="dialog"] {
   max-width: 1400px !important;
   width: 95vw !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
+  margin: 0 auto !important;
+  left: auto !important;
   right: auto !important;
+  transform: none !important;
 }
 /* dialog wrapper (Streamlit modal overlay) 가 flex centering 사용하도록 */
 div[data-testid="stDialog"],
