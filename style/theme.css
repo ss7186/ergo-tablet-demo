@@ -694,6 +694,49 @@ div[data-testid="stDialog"] [data-testid="stImage"] img {
   border-radius: 12px;
 }
 
+/* === Lever guide (영상 위 조작법 사진) === */
+.lever-guide-title {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  color: var(--text) !important;
+  margin: 1.5rem 0 0.8rem !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.lever-guide-single {
+  text-align: center;
+  margin: 0 auto 1.2rem;
+}
+.lever-guide-single img {
+  max-width: 100%;
+  max-height: 380px;
+  height: auto;
+  border-radius: 14px;
+  margin: 0.4rem auto 0;
+  display: block;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+.lever-guide-pair {
+  text-align: center;
+  margin-bottom: 0.6rem;
+}
+.lever-guide-pair img {
+  max-width: 100%;
+  max-height: 340px;
+  height: auto;
+  border-radius: 14px;
+  margin: 0.4rem auto 0;
+  display: block;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+.lever-side-label {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+
 /* === Welcome 카드 일관성 polish === */
 .setting-card, .effect-card, .info-card, .howto-setting-card {
   box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);

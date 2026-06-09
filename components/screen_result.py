@@ -29,6 +29,70 @@ _INTENSITY_BADGE = {
 }
 
 
+_LEVER_IMG = {
+    "NE": "illustrations/lever_ne.jpg",
+    "AD": "illustrations/lever_ad.jpg",
+    "AE": "illustrations/lever_ae.jpg",
+    "AI": "illustrations/lever_ai.jpg",
+}
+
+_LEVER_LABEL = {
+    "NE": "기본",
+    "AD": "내로우 · 롤인",
+    "AE": "와이드 · 토인",
+    "AI": "와이드 · 토아웃",
+}
+
+
+def _render_lever_guide(cond_key: str):
+    """레버 조작법 사진. condition code 앞 2글자=오른쪽, 뒤 2글자=왼쪽.
+
+    좌/우 동일 모드: 한 장 가운데. 다르면 2열로 좌·우 각각 표시.
+    """
+    if not cond_key or len(cond_key) != 4:
+        return
+    right_code, left_code = cond_key[:2], cond_key[2:]
+    right_url = _img_data_url(_LEVER_IMG.get(right_code, ""))
+    left_url = _img_data_url(_LEVER_IMG.get(left_code, ""))
+    if not right_url and not left_url:
+        return
+
+    st.markdown(
+        '<h3 class="lever-guide-title">🔧 레버 조작법</h3>',
+        unsafe_allow_html=True,
+    )
+
+    if right_code == left_code and right_url:
+        st.markdown(
+            f'<div class="lever-guide-single">'
+            f'  <div class="lever-side-label">양쪽 · {_LEVER_LABEL.get(right_code, "")}</div>'
+            f'  <img src="{right_url}" alt="" />'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+        return
+
+    c_r, c_l = st.columns(2, gap="small")
+    with c_r:
+        if right_url:
+            st.markdown(
+                f'<div class="lever-guide-pair">'
+                f'  <div class="lever-side-label">오른쪽 · {_LEVER_LABEL.get(right_code, "")}</div>'
+                f'  <img src="{right_url}" alt="" />'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+    with c_l:
+        if left_url:
+            st.markdown(
+                f'<div class="lever-guide-pair">'
+                f'  <div class="lever-side-label">왼쪽 · {_LEVER_LABEL.get(left_code, "")}</div>'
+                f'  <img src="{left_url}" alt="" />'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+
 def _render_settings_card(cond: dict):
     sym = cond.get("symmetry", "symm")
     sym_label = "양쪽 동일" if sym == "symm" else "왼쪽 / 오른쪽 다른 세팅"
@@ -164,7 +228,10 @@ def render(conditions: dict, mapping: dict):
         with st.container(height=CARD_HEIGHT, border=False):
             _render_effects(cond, cond_key)
 
-    # 2행: 컨디션 영상 (전체 폭) — caption 없음
+    # 2행: 레버 조작법 사진 (영상 위에) — 좌/우 같으면 1장, 다르면 2장
+    _render_lever_guide(cond_key)
+
+    # 3행: 컨디션 영상 (전체 폭) — caption 없음
     render_video(media.get("video"))
 
     warnings = check_contraindications(cond, st.session_state.get("concerns", []), mapping)
