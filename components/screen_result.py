@@ -47,47 +47,77 @@ _LEVER_LABEL = {
 def _render_lever_guide(cond_key: str):
     """레버 조작법 사진. condition code 앞 2글자=오른쪽, 뒤 2글자=왼쪽.
 
-    좌/우 동일 모드: 한 장 가운데. 다르면 2열로 좌·우 각각 표시.
+    - 좌/우 동일 모드 (symm: NENE/ADAD/AEAE/AIAI): 한 장 가운데, "양쪽 · <모드>"
+    - 비대칭 (asym: ADNE/NEAD/AENE/NEAE/AINE/NEAI): 중립(NE) 쪽은 생략하고
+      비-NE 쪽만 한 장 표시. label 은 "오른쪽 · <모드>" 또는 "왼쪽 · <모드>".
     """
     if not cond_key or len(cond_key) != 4:
         return
     right_code, left_code = cond_key[:2], cond_key[2:]
-    right_url = _img_data_url(_LEVER_IMG.get(right_code, ""))
-    left_url = _img_data_url(_LEVER_IMG.get(left_code, ""))
-    if not right_url and not left_url:
-        return
 
     st.markdown(
         '<h3 class="lever-guide-title">🔧 레버 조작법</h3>',
         unsafe_allow_html=True,
     )
 
-    if right_code == left_code and right_url:
+    # 좌우 동일 → 한 장
+    if right_code == left_code:
+        url = _img_data_url(_LEVER_IMG.get(right_code, ""))
+        if not url:
+            return
         st.markdown(
             f'<div class="lever-guide-single">'
             f'  <div class="lever-side-label">양쪽 · {_LEVER_LABEL.get(right_code, "")}</div>'
-            f'  <img src="{right_url}" alt="" />'
+            f'  <img src="{url}" alt="" />'
             f'</div>',
             unsafe_allow_html=True,
         )
         return
 
+    # 비대칭 — NE가 아닌 쪽만 표시
+    if right_code != "NE" and left_code == "NE":
+        url = _img_data_url(_LEVER_IMG.get(right_code, ""))
+        if url:
+            st.markdown(
+                f'<div class="lever-guide-single">'
+                f'  <div class="lever-side-label">오른쪽 · {_LEVER_LABEL.get(right_code, "")}</div>'
+                f'  <img src="{url}" alt="" />'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+        return
+
+    if left_code != "NE" and right_code == "NE":
+        url = _img_data_url(_LEVER_IMG.get(left_code, ""))
+        if url:
+            st.markdown(
+                f'<div class="lever-guide-single">'
+                f'  <div class="lever-side-label">왼쪽 · {_LEVER_LABEL.get(left_code, "")}</div>'
+                f'  <img src="{url}" alt="" />'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+        return
+
+    # Fallback (양쪽 다 비-NE 인데 서로 다른 모드 — 현재 매트릭스엔 없으나 안전망)
     c_r, c_l = st.columns(2, gap="small")
     with c_r:
-        if right_url:
+        url = _img_data_url(_LEVER_IMG.get(right_code, ""))
+        if url:
             st.markdown(
                 f'<div class="lever-guide-pair">'
                 f'  <div class="lever-side-label">오른쪽 · {_LEVER_LABEL.get(right_code, "")}</div>'
-                f'  <img src="{right_url}" alt="" />'
+                f'  <img src="{url}" alt="" />'
                 f'</div>',
                 unsafe_allow_html=True,
             )
     with c_l:
-        if left_url:
+        url = _img_data_url(_LEVER_IMG.get(left_code, ""))
+        if url:
             st.markdown(
                 f'<div class="lever-guide-pair">'
                 f'  <div class="lever-side-label">왼쪽 · {_LEVER_LABEL.get(left_code, "")}</div>'
-                f'  <img src="{left_url}" alt="" />'
+                f'  <img src="{url}" alt="" />'
                 f'</div>',
                 unsafe_allow_html=True,
             )
