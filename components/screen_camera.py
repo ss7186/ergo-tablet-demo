@@ -156,6 +156,13 @@ _POSE_HTML = """
         <option value="heavy">Heavy (최정확, 10-15fps)</option>
       </select>
     </div>
+    <div class="model-select">
+      카메라
+      <select id="cameraSelect">
+        <option value="">자동</option>
+      </select>
+      <button id="btnRefreshCam" class="btn secondary" style="padding:6px 10px; font-size:13px;" title="카메라 목록 새로고침">🔄</button>
+    </div>
     <button id="btnStart" class="btn" disabled>▶ 시작</button>
     <button id="btnStop" class="btn secondary" disabled>■ 정지 · 분석</button>
   </div>
@@ -227,6 +234,8 @@ const cuesBox = document.getElementById('cuesBox');
 const liveView = document.getElementById('liveView');
 const summaryView = document.getElementById('summaryView');
 const modelSelect = document.getElementById('modelSelect');
+const cameraSelect = document.getElementById('cameraSelect');
+const btnRefreshCam = document.getElementById('btnRefreshCam');
 const qualityText = document.getElementById('qualityText');
 const qualityBar = document.getElementById('qualityBar');
 
@@ -347,14 +356,57 @@ async function loadModel(key) {
   setStatus('모델 (' + key + ') 준비 완료');
 }
 
+// ── 카메라 목록 열거 (외장 USB 카메라 포함) ──
+// label 은 카메라 권한 승인 후에만 노출됨 → 시작 성공 후 재열거하여 이름 갱신
+async function listCameras() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return 0;
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const cams = devices.filter(d => d.kind === 'videoinput');
+    const prev = cameraSelect.value;
+    cameraSelect.innerHTML = '<option value="">자동</option>';
+    cams.forEach((c, i) => {
+      const o = document.createElement('option');
+      o.value = c.deviceId;
+      o.textContent = c.label || ('카메라 ' + (i + 1));
+      cameraSelect.appendChild(o);
+    });
+    if (prev && [...cameraSelect.options].some(o => o.value === prev)) {
+      cameraSelect.value = prev;
+    }
+    return cams.length;
+  } catch (e) { return 0; }
+}
+
+// ── getUserMedia 폴백 체인 ──
+// 1) 선택한 deviceId (외장 카메라 지정)
+// 2) facingMode: 'user' (내장 전면)
+// 3) 해상도만 (facingMode 없는 외장 카메라 — webOS/USB 카메라가 여기서 잡힘)
+// 4) video: true (최후: 아무 제약 없이)
+async function openStream() {
+  const chosen = cameraSelect.value;
+  const tries = [];
+  if (chosen) {
+    tries.push({ video: { deviceId: { exact: chosen }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+    tries.push({ video: { deviceId: { exact: chosen } }, audio: false });
+  }
+  tries.push({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+  tries.push({ video: { width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+  tries.push({ video: true, audio: false });
+  let lastErr = null;
+  for (const c of tries) {
+    try { return await navigator.mediaDevices.getUserMedia(c); }
+    catch (e) { lastErr = e; }
+  }
+  throw lastErr || new Error('no camera');
+}
+
 async function startCamera() {
   if (running) return;
   try {
-    stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
-      audio: false
-    });
+    stream = await openStream();
     video.srcObject = stream;
+    listCameras();  // 권한 승인됨 → label 포함해 목록 갱신 (await 불필요)
     await new Promise((res) => { video.onloadeddata = res; });
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
@@ -376,7 +428,12 @@ async function startCamera() {
       requestAnimationFrame(loop);
     }
   } catch (e) {
-    showErr('카메라 접근 실패: ' + e.message +
+    const nCams = await listCameras();
+    showErr('카메라 접근 실패: ' + e.name + ' — ' + e.message +
+            '<br/>· 검출된 카메라: <b>' + nCams + '대</b>' +
+            (nCams === 0
+              ? ' — USB 카메라 연결 상태 확인 후 🔄 버튼으로 재검색'
+              : ' — 카메라 드롭다운에서 직접 선택 후 다시 시작') +
             '<br/>· 브라우저 카메라 권한이 차단되었는지 확인 (주소창 자물쇠 → 카메라 허용)' +
             '<br/>· 다른 앱이 카메라를 사용 중인지 확인' +
             '<br/>· HTTPS 가 아닌 페이지에서는 카메라 접근 불가');
@@ -805,8 +862,22 @@ modelSelect.addEventListener('change', async (e) => {
   await loadModel(e.target.value);
   btnStart.disabled = false;
 });
+btnRefreshCam.addEventListener('click', async () => {
+  const n = await listCameras();
+  setStatus('카메라 ' + n + '대 검출');
+});
+cameraSelect.addEventListener('change', () => {
+  if (running) {
+    // 실행 중 카메라 교체: 스트림만 갈아끼움 (세션 버퍼는 유지하지 않고 재시작 권장)
+    showErr('실행 중에는 카메라 변경 불가 — 정지 후 다시 시작하세요.', true);
+  }
+});
+if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+  navigator.mediaDevices.addEventListener('devicechange', listCameras);
+}
 window.addEventListener('beforeunload', () => { if (running) stopCamera(); });
 
+listCameras();
 initPose();
 </script>
 
